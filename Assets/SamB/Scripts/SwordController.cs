@@ -9,7 +9,8 @@ public class SwordController : MonoBehaviour
     //Dont think we can use layers? So have to use a tag.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        //looking for colliders with the EnemeyHealth script
+        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
         {
             Health health = other.GetComponent<Health>();
             if (health != null)
