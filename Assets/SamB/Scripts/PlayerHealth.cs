@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 { 
+    /* If we need some extra logic for when player/ship takes damage we can override, but probably wont
     public override void Damage(float amount, DamageType type)
     {
         currentHealth -= amount;
     }
+    */ 
 }

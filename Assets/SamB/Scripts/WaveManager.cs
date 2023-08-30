@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
-    public Transform spawnPoint;
+    public GameObject[] spawnPoints;
     public int totalWaves = 5;
     public int enemiesPerWave = 10;
     public float timeBetweenSpawns = 2.0f;
@@ -13,6 +13,7 @@ public class WaveManager : MonoBehaviour
 
     private int currentWave = 1;
 
+  
     private void Start()
     {
         StartCoroutine(SpawnWaves());
@@ -39,7 +40,16 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
+        if (spawnPoints.Length == 0)
+        {
+            Debug.LogWarning("No spawn points assigned.");
+            return;
+        }
+
         int randomEnemyIndex = Random.Range(0, enemyPrefabs.Length);
-        Instantiate(enemyPrefabs[randomEnemyIndex], spawnPoint.position, Quaternion.identity);
+        int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
+        //instantiating a new enemy (Random enemy, at position of a random spawn point, default/no rotation)
+        Instantiate(enemyPrefabs[randomEnemyIndex], spawnPoints[randomSpawnIndex].transform.position, Quaternion.identity);
     }
+
 }

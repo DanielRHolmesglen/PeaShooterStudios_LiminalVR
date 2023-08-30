@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Liminal.SDK.VR;
 using Liminal.SDK.VR.Input;
+using System;
 
-public class GunShootDamage : MonoBehaviour
+public class GunShootDamage : MonoBehaviour 
 {
     public float minChargeTime = 0.5f;
     public float maxChargeTime = 1.5f;
@@ -15,41 +16,76 @@ public class GunShootDamage : MonoBehaviour
     private float chargeTimer;
     private bool isCharging;
 
-    
+    private LineRenderer laserLine; //reference to line renderer for laser
+    public ParticleSystem chargingParticles; // Reference to charging particle effect
+
+
+    private void Start()
+    {
+        laserLine = GetComponent<LineRenderer>();         // Find  Line Renderer on the gun
+        chargingParticles = GetComponentInChildren<ParticleSystem>();
+        laserLine.enabled = false; // Disable the Line Renderer initially
+    }
 
     private void Update()
     {
         var primaryInput = VRDevice.Device.PrimaryInputDevice;
 
-        if (primaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(0))
+        //start charging gun when you press down
+        if (primaryInput.GetButton(VRButton.One) || Input.GetMouseButton(0))
         {
+            Debug.Log("Firing button pressed");
             isCharging = true;
-            chargeTimer = 0f;
+        }
+
+        //when mouse button released, fire laser
+        if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0))
+        {
+            if (chargeTimer >= minChargeTime)
+            {
+                isCharging = false;
+                FireLaser(chargeTimer);
+                chargingParticles.Stop();
+
+            }
+
+            else
+            {
+                isCharging = false;
+                chargeTimer = 0f;
+                chargingParticles.Stop();
+
+            }
         }
 
         if (isCharging)
         {
+            // charging animation
+            // charging sound
+
             chargeTimer += Time.deltaTime;
+            chargingParticles.Play();
 
-            if (chargeTimer >= minChargeTime)
-            {
-                // charging animation
-            }
-
-            if (chargeTimer >= maxChargeTime)
-            {
-                FireLaser(chargeTimer);
-                chargeTimer = 0f;
-                isCharging = false;
-            }
         }
     }
 
+
     private void FireLaser(float chargeTime)
     {
+        //reset charge timer
+        chargeTimer = 0f;
+
+        //if the raycast is hitting an enemy 
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
         {
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+
+            // Enable the laser (Line Renderer) and set its positions
+            laserLine.enabled = true;
+            laserLine.SetPosition(0, transform.position);
+            laserLine.SetPosition(1, hit.point);
+            Invoke("TurnOffLaser", 0.3f);
+
             if (enemyHealth != null)
             {
                 float damage = Mathf.Lerp(minDamage, maxDamage, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
@@ -58,6 +94,11 @@ public class GunShootDamage : MonoBehaviour
                 enemyHealth.Damage(damage, DamageType.Gun);
             }
         }
+    }
+
+    private void TurnOffLaser()
+    {
+        laserLine.enabled = false;
     }
 
 }

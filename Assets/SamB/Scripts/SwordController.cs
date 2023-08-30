@@ -12,11 +12,11 @@ public class SwordController : MonoBehaviour
         //looking for colliders with the EnemeyHealth script
         EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
         {
-            Health health = other.GetComponent<Health>();
+            EnemyHealth health = other.GetComponent<EnemyHealth>();
             if (health != null)
             {
                 //do damage, and pass in the sword enum so enemyhealth knows what type of damage it is 
-                health.Damage(swordDamage, DamageType.Sword);
+                enemyHealth.Damage(swordDamage, DamageType.Sword);
             }
         }
     }

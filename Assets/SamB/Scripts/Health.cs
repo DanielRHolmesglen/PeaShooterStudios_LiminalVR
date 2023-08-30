@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    
-
+    /*
     [Header("Mods")]
     public int RangedArmor;
     public int MeleeArmor;
+    */
 
     [Header("Attributes")]
     public float maxHealth = 50f;
@@ -21,7 +21,14 @@ public class Health : MonoBehaviour
 
     public virtual void Damage(float amount, DamageType type)
     {
-        currentHealth = -amount;
+        if (currentHealth >= 0)
+        {
+            currentHealth = -amount;
+        }
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     public virtual void Heal(float amount)
@@ -31,9 +38,17 @@ public class Health : MonoBehaviour
 
     public virtual void Die()
     {
-        Debug.Log(gameObject.name + " has perished");
-        // other death stuff
+        // Remove from scene
+        Invoke("Destroy", 1);
     }
 
-    
+    private void Destroy()
+    {
+        Destroy(gameObject);
+
+    }
+
+
+
+
 }
