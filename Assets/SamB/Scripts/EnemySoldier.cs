@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Responsible for the Soldier bugs attack function (which is called by EnemeyMovement)
+/// </summary>
 public class EnemySoldier : MonoBehaviour
 {
     public float meleeDamage = 10f;
@@ -19,7 +21,6 @@ public class EnemySoldier : MonoBehaviour
         }
 
         // Play attack animation
-        //animator.SetTrigger("Attack");
     }
 
 }

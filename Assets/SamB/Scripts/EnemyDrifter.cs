@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Responsible for the Difter bugs attack function (which is called by EnemeyMovement)
+/// </summary>
 public class EnemyDrifter : MonoBehaviour
 {
      
@@ -20,7 +22,6 @@ public class EnemyDrifter : MonoBehaviour
         }
 
         // Play attack animation
-        //animator.SetTrigger("Attack");
     }
     
 }

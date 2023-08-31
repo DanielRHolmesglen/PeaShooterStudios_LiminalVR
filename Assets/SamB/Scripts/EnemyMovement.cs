@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Responsible for moving enemy bugs towards the player. Moves bugs towards players in a "zigzag" or a "curvy line", but haven't been able to figure that out 
+/// yet. Also responsible for calling attack functions when the enemy is cloe enough to the player, to save update checks on multiple other scripts.
+/// </summary>
 public class EnemyMovement : MonoBehaviour
 {
     public float moveSpeed = 3.0f;
@@ -10,32 +13,36 @@ public class EnemyMovement : MonoBehaviour
     public float sideToSideMovementRange = 1f;
     public float sideToSideMovementSpeed = 1f;
 
+    //bools to determine what enemy type, for attack calls
     public bool IsSoldier;
     public bool IsArtillery;
-    public bool IsDrifter;
+    public bool IsDrifter; 
 
-    //has to be static so other scripts know which instance of EnemyMovemt player variable to refrence, also makes game faster
-    public static Transform player;
-    public static Vector3 playerPosition; // Static Vector3 to store player's position
-    public static PlayerHealth playerHealth; // Static reference to player's health for all scripts
+    //static references for other scripts to use
+    public static Transform player; //static so other scripts know which instance to refrence, also just easier to do this way for other scripts
+    public static Vector3 playerPosition; // player's position
+    public static PlayerHealth playerHealth; // reference to player's health for all scripts to easily use 
 
     private Animator animator;
     private Vector3 initialPosition;
     private float attackTimer = 0f;
     private bool isAttacking = false;
-    private bool isMovingTowardsPlayer = true; // Flag for movement direction
+    private bool isMovingTowardsPlayer = true; 
     private float sideToSideMovement = 3f;
+
+    private float timeOffset; // Gives each enemy a slightly different movement pattern
+
 
 
 
     private void Start()
     {
-        // Get the Transform component of the player
-        player = FindObjectOfType<PlayerHealth>().transform;
+        player = FindObjectOfType<PlayerHealth>().transform; // Get the Transform component of the player
         animator = GetComponent<Animator>();
-        initialPosition = transform.position;
+        float timeOffset = Random.Range(0f, 2f * Mathf.PI);
+        initialPosition = transform.position - new Vector3(timeOffset, 0f, 0f); // Adjust initial position based on offset
 
-        // Check if playerPosition is not set yet
+        // Check if playerPosition is set yet
         if (playerPosition == Vector3.zero)
         {
             // Find the player object by its name
@@ -71,8 +78,10 @@ public class EnemyMovement : MonoBehaviour
         if (distanceToPlayer <= attackRange)
         {
             isAttacking = true;
-            isMovingTowardsPlayer = false; // Stop moving towards player
+            //stop moving toward player when attacking
+            HandleAttack();
         }
+
         else
         {
             // Calculate zigzag 
@@ -84,23 +93,7 @@ public class EnemyMovement : MonoBehaviour
             // Move towards the target position
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-            
-            // Check if the enemy should stop moving
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-            {
-                isMovingTowardsPlayer = !isMovingTowardsPlayer;
-            }
-            
-
             isAttacking = false;
-        }
-
-
-
-        // Perform attack logic
-        if (isAttacking)
-        {
-            HandleAttack();
         }
 
         // Update playerPosition continuously
@@ -115,6 +108,7 @@ public class EnemyMovement : MonoBehaviour
     {
         // Update attackTimer
         attackTimer += Time.deltaTime;
+
         if (attackTimer >= attackCooldown)
         {
             //reset timer
@@ -146,8 +140,6 @@ public class EnemyMovement : MonoBehaviour
 
 
     }
-
-
 
 }
 

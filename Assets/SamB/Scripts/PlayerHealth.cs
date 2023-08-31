@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-//using a playerhealth script so if we want to give the player "armors" and other health effect later on we can
+/// <summary>
+/// Primarily used for tracking purposes since we can't use tags or layers. 
+/// Can easily give the player armors if need be as well.
+/// </summary>
 
 public class PlayerHealth : Health
 { 

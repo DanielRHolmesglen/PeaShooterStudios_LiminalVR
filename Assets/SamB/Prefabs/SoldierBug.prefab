@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4783ad9cda218b24b90ce79a61d56144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 40
   swordMultiplier: 1
   gunMultipiler: 1
 --- !u!114 &3768150325318143158

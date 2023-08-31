@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Controls projectiles collisions and damage that have been fired by enimies  
+/// </summary>
 public class EnemyProjectiles : MonoBehaviour
 {
     public float rangedDamage = 5f;
@@ -13,7 +15,7 @@ public class EnemyProjectiles : MonoBehaviour
 
     public void Damage()
     {
-        //Reference to the playehealth script. Referencing the enemymovement static one. 
+        //Reference to the playehealth script. Referencing the enemymovement static reference. 
         PlayerHealth playerHealth = EnemyMovement.playerHealth;
 
         if (playerHealth != null)
@@ -26,9 +28,9 @@ public class EnemyProjectiles : MonoBehaviour
     void Update()
     {
         // Check if the projectile has traveled the maximum distance
-        if (Vector3.Distance(initialPosition, transform.position) >= maxDistance)
+        if (Vector3.Distance(initialPosition, playerPosition) >= maxDistance)
         {
-            Destroy(gameObject); // Destroy the projectile
+            Destroy(gameObject);
         }
 
         // Check for collision with the player
@@ -43,8 +45,8 @@ public class EnemyProjectiles : MonoBehaviour
         // Calculate the distance between the projectile and the player
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
 
-        // Define a collision threshold based on the size of the player
-        float collisionThreshold = 1.0f;
+        // Define a collision threshold
+        float collisionThreshold = 5f;
 
         // If the distance is within the collision threshold, consider it a hit
         if (distanceToPlayer <= collisionThreshold)

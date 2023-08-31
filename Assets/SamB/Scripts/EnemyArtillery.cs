@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Responsible for the Artilery bugs attack function (which is called by EnemeyMovement). Spawns a projectile and yeets it towards player.
+/// </summary>
 public class EnemyArtillery : MonoBehaviour
 {
     public GameObject projectilePrefab; // Prefab of the projectile
@@ -25,6 +27,7 @@ public class EnemyArtillery : MonoBehaviour
             Vector3 directionToPlayer = (playerPosition - projectileSpawnPoint.position).normalized;
             projectileRigidbody.velocity = directionToPlayer * projectileSpeed;
         }
+        //attack animations
     }
 
 }

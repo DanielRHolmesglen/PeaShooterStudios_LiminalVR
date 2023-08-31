@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Respnsible for tracking sword collisions and dealing damage with it. 
+/// </summary>
 public class SwordController : MonoBehaviour
 {
     public float swordDamage = 20f;

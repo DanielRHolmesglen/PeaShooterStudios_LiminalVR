@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// responsible for making enimies flash red when thye are hit. Called by health scripts when a unit is damaged. 
+/// </summary>
 public class ColorChange : MonoBehaviour
 {
     public Color damagedColor = Color.red;

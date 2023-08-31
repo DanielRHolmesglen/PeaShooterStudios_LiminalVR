@@ -5,8 +5,10 @@ using UnityEngine.EventSystems;
 using Liminal.SDK.VR;
 using Liminal.SDK.VR.Input;
 using System;
-
-public class GunShootDamage : MonoBehaviour 
+/// <summary>
+/// Responsible for charging the gun when mouse is held down, firing gun, dealing damage, drawing the laser and turning on/off the particle effect. 
+/// </summary>
+public class GunController : MonoBehaviour 
 {
     public float minChargeTime = 0.5f;
     public float maxChargeTime = 1.5f;

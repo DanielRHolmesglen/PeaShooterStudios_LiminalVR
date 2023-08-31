@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Mommy health script that is inherited by all other health scripts. Responsible for max hp, current hp, Damage, healing and Dying.
+/// </summary>
 public class Health : MonoBehaviour
 {
-    /*
-    [Header("Mods")]
-    public int RangedArmor;
-    public int MeleeArmor;
-    */
 
     [Header("Attributes")]
     public float maxHealth = 50f;
@@ -21,6 +18,7 @@ public class Health : MonoBehaviour
 
     public virtual void Damage(float amount, DamageType type)
     {
+        //checking if health is ,= 0. If it isn't do the damage, if it is instead Destroy the object. 
         if (currentHealth >= 0)
         {
             currentHealth = -amount;
@@ -42,6 +40,7 @@ public class Health : MonoBehaviour
         Invoke("Destroy", 1);
     }
 
+    //destroy gameobject
     private void Destroy()
     {
         Destroy(gameObject);
