@@ -24,6 +24,7 @@ public class EnemyArtillery : MonoBehaviour
         // Shoot the projectile towards the player
         if (projectileRigidbody != null)
         {
+            Debug.Log("Projectile instantiated successfully.");
             Vector3 directionToPlayer = (playerPosition - projectileSpawnPoint.position).normalized;
             projectileRigidbody.velocity = directionToPlayer * projectileSpeed;
         }

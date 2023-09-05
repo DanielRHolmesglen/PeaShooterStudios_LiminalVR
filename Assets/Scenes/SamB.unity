@@ -6017,6 +6017,8 @@ GameObject:
   - component: {fileID: 1172621552}
   - component: {fileID: 1172621551}
   - component: {fileID: 1172621550}
+  - component: {fileID: 1172621555}
+  - component: {fileID: 1172621556}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -6037,6 +6039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
+  currentHealth: 0
 --- !u!65 &1172621551
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6109,6 +6112,33 @@ Transform:
   m_Father: {fileID: 197530529}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1172621555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172621549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c63a331b914604491601d201c41973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1172621556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172621549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beef9fad380780d48bf6e0a022199cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highTintColor: {r: 0, g: 1, b: 0, a: 0.35}
+  lowTintColor: {r: 1, g: 1, b: 0, a: 0.35}
+  maxHealth: 1000
 --- !u!1 &1208144368
 GameObject:
   m_ObjectHideFlags: 0
@@ -6288,13 +6318,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419879684}
-  m_LocalRotation: {x: 0.42078516, y: -0.524212, z: -0.039319236, w: 0.73932105}
-  m_LocalPosition: {x: 9.6, y: 9.9, z: -1.14}
+  m_LocalRotation: {x: 0.031130431, y: -0.51483077, z: 0.85394615, w: 0.06896561}
+  m_LocalPosition: {x: 8.12, y: 20.12, z: -2.05}
   m_LocalScale: {x: 1, y: 1.0000001, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 571038219}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 35.519, y: -83.206, z: -37.839}
+  m_LocalEulerAnglesHint: {x: 62.076004, y: -362.184, z: -190.549}
 --- !u!108 &1419879686
 Light:
   m_ObjectHideFlags: 0

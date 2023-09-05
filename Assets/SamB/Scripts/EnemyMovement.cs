@@ -7,11 +7,16 @@ using UnityEngine;
 /// </summary>
 public class EnemyMovement : MonoBehaviour
 {
-    public float moveSpeed = 3.0f;
+    public float minSpeed = 1.0f; // Minimum movement speed
+    public float maxSpeed = 5.0f; // Maximum movement speed
+    public float speedChangeInterval = 2.0f; // Time interval for changing speed
+    public float moveSpeed; // stores move speed
     public float attackRange = 10.0f;
     public float attackCooldown = 2.0f;
-    public float sideToSideMovementRange = 1f;
-    public float sideToSideMovementSpeed = 1f;
+
+    private float initialSpeed; // The initial movement speed
+    private float speedChangeTimer = 0f; // Timer for speed changes
+    private bool isSpeedIncreasing = true; // Flag to track speed direction
 
     //bools to determine what enemy type, for attack calls
     public bool IsSoldier;
@@ -64,13 +69,53 @@ public class EnemyMovement : MonoBehaviour
                 playerHealth = playerHealth.GetComponent<PlayerHealth>();
             }
         }
+
+        initialSpeed = moveSpeed; // Store the initial movement speed
+
     }
 
-    
+
 
     private void Update()
     {
         if (player == null)
+            return; // No player found, dont do code or else you get errors
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= attackRange)
+        {
+            isAttacking = true;
+            // Stop moving towards player when attacking
+            HandleAttack();
+        }
+        else
+        {
+            // Update the speed periodically
+            speedChangeTimer += Time.deltaTime;
+            if (speedChangeTimer >= speedChangeInterval)
+            {
+                // Toggle speed direction
+                isSpeedIncreasing = !isSpeedIncreasing;
+                speedChangeTimer = 0f;
+            }
+            
+            // Adjust the movement speed based on the speed direction
+            moveSpeed = isSpeedIncreasing ? Mathf.Lerp(minSpeed, maxSpeed, speedChangeTimer / speedChangeInterval) : Mathf.Lerp(maxSpeed, minSpeed, speedChangeTimer / speedChangeInterval);
+
+            // Move towards the player
+            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+
+            isAttacking = false;
+        }
+
+        // Update playerPosition continuously
+        if (playerPosition != Vector3.zero && playerPosition != player.position)
+        {
+            playerPosition = player.position;
+        }
+
+        /* if (player == null)
             return; // No player found, dont do code or else you get errors
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -96,12 +141,7 @@ public class EnemyMovement : MonoBehaviour
             isAttacking = false;
         }
 
-        // Update playerPosition continuously
-        if (playerPosition != Vector3.zero && playerPosition != player.position)
-        {
-            playerPosition = player.position;
-        }
-
+        */
     }
     
     private void HandleAttack()

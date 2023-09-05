@@ -13,16 +13,19 @@ public class EnemyHealth: Health
     [Header("GunArmour")]
     public float gunMultipiler = 1;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start(); //invoke the parent(base) class's start first, then add the below stuff
+        base.Awake(); //invoke the parent(base) class's start first, then add the below stuff
         ColorChange = GetComponent<ColorChange>();
+
     }
 
 
     //we are not calling base as dont want to do damage twice, we are just overriding it with the gun/sword multiplier
     public override void Damage(float amount, DamageType type)
     {
+        
+
         if (currentHealth <= 0)
         {
             Die();
@@ -36,13 +39,13 @@ public class EnemyHealth: Health
                 case DamageType.Sword:
                     currentHealth -= amount * swordMultiplier;
                     OnDamageTaken();
+                    
                     if (currentHealth <= 0)
                     {
                         Die();
                     }
                     break;
-                    
-                    
+                     
 
                 case DamageType.Gun:
                     currentHealth -= amount * gunMultipiler;
@@ -59,10 +62,10 @@ public class EnemyHealth: Health
                     break;
             }
         }
-        
 
-
-    }    
+        // Raise (not invoke, as you cant invoke in a different class) the event to notify subscribers about the health change
+        RaiseOnHealthChanged(currentHealth, maxHealth);
+    }
 
 
     public void OnDamageTaken()
