@@ -22,10 +22,10 @@ public class Health : MonoBehaviour
 
     public virtual void Damage(float amount, DamageType type)
     {
-        //checking if health is ,= 0. If it isn't do the damage, if it is instead Destroy the object. 
+        //checking if health is 0. If it isn't do the damage, if it is instead Destroy the object. 
         if (currentHealth > 0)
         {
-            currentHealth = -amount;
+            currentHealth = currentHealth - amount;
 
             // Notify subscribers that health has changed
             RaiseOnHealthChanged(currentHealth, maxHealth);
@@ -45,10 +45,10 @@ public class Health : MonoBehaviour
         RaiseOnHealthChanged(currentHealth, maxHealth);
     }
 
+    // Remove from scene
     public virtual void Die()
     {
-        // Remove from scene
-        Invoke("Destroy", 1);
+        Invoke("Destroy", (1/2));
     }
 
     //destroy gameobject
@@ -60,6 +60,7 @@ public class Health : MonoBehaviour
 
     protected void RaiseOnHealthChanged(float currentHealth, float maxHealth)
     {
+        //invoke the event to notify subscribers 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 

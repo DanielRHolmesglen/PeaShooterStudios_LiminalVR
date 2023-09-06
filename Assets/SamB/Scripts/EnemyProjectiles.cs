@@ -28,7 +28,7 @@ public class EnemyProjectiles : MonoBehaviour
     void Update()
     {
         // Check if the projectile has traveled the maximum distance
-        if (Vector3.Distance(initialPosition, playerPosition) >= maxDistance)
+        if (Vector3.Distance(initialPosition, transform.position) >= maxDistance)
         {
             Destroy(gameObject);
         }
@@ -46,7 +46,7 @@ public class EnemyProjectiles : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
 
         // Define a collision threshold
-        float collisionThreshold = 5f;
+        float collisionThreshold = 3.5f;
 
         // If the distance is within the collision threshold, consider it a hit
         if (distanceToPlayer <= collisionThreshold)

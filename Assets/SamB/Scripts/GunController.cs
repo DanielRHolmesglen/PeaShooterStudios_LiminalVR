@@ -15,8 +15,8 @@ public class GunController : MonoBehaviour
     public float minDamage = 5f;
     public float maxDamage = 25f;
 
-    private float chargeTimer;
-    private bool isCharging;
+    public float chargeTimer;
+    public bool isCharging;
 
     private LineRenderer laserLine; //reference to line renderer for laser
     public ParticleSystem chargingParticles; // Reference to charging particle effect
@@ -37,7 +37,9 @@ public class GunController : MonoBehaviour
         if (primaryInput.GetButton(VRButton.One) || Input.GetMouseButton(0))
         {
             //Debug.Log("Firing button pressed");
+            //turn the bool on 
             isCharging = true;
+
         }
 
         //when mouse button released, fire laser
@@ -102,5 +104,6 @@ public class GunController : MonoBehaviour
     {
         laserLine.enabled = false;
     }
+
 
 }

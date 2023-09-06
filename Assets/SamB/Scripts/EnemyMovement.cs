@@ -30,17 +30,15 @@ public class EnemyMovement : MonoBehaviour
 
     private Animator animator;
     private Vector3 initialPosition;
-    private float attackTimer = 0f;
+    private float attackTimer = 0f; //the clock that tracks attackcooldown time
     private bool isAttacking = false;
-    private bool isMovingTowardsPlayer = true; 
-    private float sideToSideMovement = 3f;
 
     private float timeOffset; // Gives each enemy a slightly different movement pattern
 
 
 
 
-    private void Start()
+    private void Awake()
     {
         player = FindObjectOfType<PlayerHealth>().transform; // Get the Transform component of the player
         animator = GetComponent<Animator>();
@@ -71,6 +69,15 @@ public class EnemyMovement : MonoBehaviour
         }
 
         initialSpeed = moveSpeed; // Store the initial movement speed
+
+        // Calculate the direction from the enemy to the player
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+
+        // Calculate the rotation to look at the player
+        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
+
+        // Apply the rotation to the enemy's transform
+        transform.rotation = lookRotation;
 
     }
 
@@ -109,39 +116,6 @@ public class EnemyMovement : MonoBehaviour
             isAttacking = false;
         }
 
-        // Update playerPosition continuously
-        if (playerPosition != Vector3.zero && playerPosition != player.position)
-        {
-            playerPosition = player.position;
-        }
-
-        /* if (player == null)
-            return; // No player found, dont do code or else you get errors
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= attackRange)
-        {
-            isAttacking = true;
-            //stop moving toward player when attacking
-            HandleAttack();
-        }
-
-        else
-        {
-            // Calculate zigzag 
-            sideToSideMovement = Mathf.PingPong(Time.time * sideToSideMovementSpeed, sideToSideMovementRange * 2) - sideToSideMovementRange;
-
-            // Determine target position (AKA where palyer is)
-            Vector3 targetPosition = isMovingTowardsPlayer ? player.position : initialPosition + new Vector3(sideToSideMovement, 0, 0);
-
-            // Move towards the target position
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-            isAttacking = false;
-        }
-
-        */
     }
     
     private void HandleAttack()
@@ -151,6 +125,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (attackTimer >= attackCooldown)
         {
+
             //reset timer
             attackTimer = 0f;
 

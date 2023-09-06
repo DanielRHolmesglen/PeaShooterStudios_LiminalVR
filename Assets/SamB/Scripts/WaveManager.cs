@@ -13,7 +13,6 @@ public class WaveManager : MonoBehaviour
     public float timeBetweenSpawns = 2.0f;
     public float timeBetweenWaves = 5.0f;
 
-    private int currentWave = 1;
 
   
     private void Start()
@@ -55,6 +54,7 @@ public class WaveManager : MonoBehaviour
         int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
 
         //instantiating a new enemy (Random enemy, at position of a random spawn point, default/no rotation)
+
         Instantiate(enemyPrefabs[randomEnemyIndex], spawnPoints[randomSpawnIndex].transform.position, Quaternion.identity);
     }
 

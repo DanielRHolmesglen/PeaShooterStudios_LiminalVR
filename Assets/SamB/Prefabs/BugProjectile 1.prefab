@@ -28,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926673577146921274}
-  m_LocalRotation: {x: -0, y: -0, z: 0.6877791, w: 0.72592}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.19028395, y: 1.1734084, z: 0.46362638}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7070356, w: 0.70717794}
+  m_LocalPosition: {x: 0.0007731108, y: -0.00077326596, z: 0}
+  m_LocalScale: {x: 0.19028395, y: 1.1734084, z: 0.35150123}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 86.909004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 89.98801}
 --- !u!33 &1926673577146921279
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -90,10 +90,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.41
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.0040637474, y: 0, z: -0.01301203}
 --- !u!114 &1926673577146921249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
