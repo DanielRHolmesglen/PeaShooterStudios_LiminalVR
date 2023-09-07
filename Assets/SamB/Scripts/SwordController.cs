@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// Respnsible for tracking sword collisions and dealing damage with it. 
+/// Respnsible for tracking sword collisions and dealing damage with it. f
 /// </summary>
 public class SwordController : MonoBehaviour
 {
-    public float swordDamage = 20f;
+    
+        public float swordDamage = 20f;
 
-    //Dont think we can use layers? So have to use a tag.
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        //looking for colliders with the EnemeyHealth script
-        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+        // Check if the collision involves an enemy
+        EnemyHealth enemyHealth = collision.collider.GetComponent<EnemyHealth>();
+
+        if (enemyHealth != null)
         {
-            EnemyHealth health = other.GetComponent<EnemyHealth>();
-            if (health != null)
-            {
-                //do damage, and pass in the sword enum so enemyhealth knows what type of damage it is 
-                enemyHealth.Damage(swordDamage, DamageType.Sword);
-            }
+            // Do damage, and pass in the sword enum so EnemyHealth knows what type of damage it is
+            enemyHealth.Damage(swordDamage, DamageType.Sword);
         }
     }
+
 }
