@@ -21,8 +21,8 @@ public class ButtonInputs : MonoBehaviour
         }
         if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0))
         {
-            particles.Play();
-            //trails.emitting = true;
+            particles.Pause();
+            //trails.emitting = false;
         }
     }
 }

@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 1749292794776695746}
   - component: {fileID: 1143981334631390509}
   - component: {fileID: 1824313846087800277}
+  - component: {fileID: 7863165934364958890}
   m_Layer: 0
   m_Name: DrifterBug
   m_TagString: Untagged
@@ -253,14 +254,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7612629313505090487}
-  m_LocalRotation: {x: -0, y: -0.9992145, z: -0, w: -0.039628807}
-  m_LocalPosition: {x: 0, y: 5.8562, z: 0}
-  m_LocalScale: {x: 2.4092665, y: 2.765473, z: 2.0991457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.67, z: 0}
+  m_LocalScale: {x: 1.2515, y: 1.3837, z: 1.4542}
   m_Children:
   - {fileID: 4209468245155086704}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -184.54199, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7612629313505090378
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -412,3 +413,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bar: {fileID: 8657776607647519439}
+--- !u!195 &7863165934364958890
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612629313505090487}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.49999997
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 1.85
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

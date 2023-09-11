@@ -5,27 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour
 {
-    private PlayerHealth playerHealthEnd; // reference to player's health for all scripts to easily use 
+    //static references for other scripts to use
+    public static Transform player; //Where the player is.
+    public static Vector3 playerPosition; // player's Vector3 position
+    public static PlayerHealth playerHealth; // reference to player's health for all scripts to easily use 
+    public static Collider playerCollider; //players collider, mainly for monvment and projectiles
+    public static GameObject playerObject; //used for enemymovement
 
-    private void Start()
+
+
+    private void Awake()
     {
-        // Find the object with the PlayerHealth script
-        //cannot use static reference as this is executed before the first enemy is spawned
-        if (playerHealthEnd == null)
-        {
-            playerHealthEnd = FindObjectOfType<PlayerHealth>();
-            if (playerHealthEnd != null)
-            {
-                // Get the PlayerHealth component of the object with PlayerHealth script
-                playerHealthEnd = playerHealthEnd.GetComponent<PlayerHealth>();
-            }
-        }
+        player = GetComponent<Transform>();
+        playerCollider = GetComponent<BoxCollider>();
+        playerObject = gameObject;
+        playerHealth = GetComponent<PlayerHealth>();
+        playerPosition = transform.position;
 
-
-        if (playerHealthEnd != null)
+        if (playerHealth != null)
         {
             // Subscribe to the health change event
-            playerHealthEnd.OnHealthChanged += HandleHealthChanged;
+            playerHealth.OnHealthChanged += HandleHealthChanged;
         }
     }
 
@@ -45,9 +45,9 @@ public class EndGame : MonoBehaviour
     {
 
         // Unsubscribe from the health change event when the Ship is destroyed
-        if (playerHealthEnd != null)
+        if (playerHealth != null)
         {
-            playerHealthEnd.OnHealthChanged -= HandleHealthChanged;
+            playerHealth.OnHealthChanged -= HandleHealthChanged;
         }
     }
 

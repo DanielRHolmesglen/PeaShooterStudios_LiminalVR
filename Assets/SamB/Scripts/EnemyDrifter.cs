@@ -13,7 +13,7 @@ public class EnemyDrifter : MonoBehaviour
     public void Attack()
     {
         // Get the player's health script
-        PlayerHealth playerHealth = EnemyMovement.playerHealth;
+        PlayerHealth playerHealth = EndGame.playerHealth;
 
         if (playerHealth != null)
         {

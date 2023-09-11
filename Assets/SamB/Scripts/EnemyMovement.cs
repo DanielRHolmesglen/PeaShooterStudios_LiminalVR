@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 /// <summary>
 /// Responsible for moving enemy bugs towards the player. Moves bugs towards players in a "zigzag" or a "curvy line", but haven't been able to figure that out 
 /// yet. Also responsible for calling attack functions when the enemy is cloe enough to the player, to save update checks on multiple other scripts.
@@ -10,110 +11,73 @@ public class EnemyMovement : MonoBehaviour
     public float minSpeed = 1.0f; // Minimum movement speed
     public float maxSpeed = 5.0f; // Maximum movement speed
     public float speedChangeInterval = 2.0f; // Time interval for changing speed
+    private float timeOffset; // Gives each enemy a slightly different movement pattern
     public float moveSpeed; // stores move speed
     public float attackRange = 10.0f;
     public float attackCooldown = 2.0f;
 
-    private float initialSpeed; // The initial movement speed
-    private float speedChangeTimer = 0f; // Timer for speed changes
-    private bool isSpeedIncreasing = true; // Flag to track speed direction
-
     //bools to determine what enemy type, for attack calls
     public bool IsSoldier;
     public bool IsArtillery;
-    public bool IsDrifter; 
+    public bool IsDrifter;
 
-    //static references for other scripts to use
-    public static Transform player; //static so other scripts know which instance to refrence, also just easier to do this way for other scripts
-    public static Vector3 playerPosition; // player's position
-    public static PlayerHealth playerHealth; // reference to player's health for all scripts to easily use 
+    private Transform player = EndGame.player;
+    private GameObject playerObject = EndGame.playerObject;
+    private PlayerHealth playerHealth = EndGame.playerHealth;
+    private Collider playerCollider = EndGame.playerCollider;
 
     private Animator animator;
-    private Vector3 initialPosition;
+    private NavMeshAgent navMeshAgent;
+
     private float attackTimer = 0f; //the clock that tracks attackcooldown time
-    private bool isAttacking = false;
 
-    private float timeOffset; // Gives each enemy a slightly different movement pattern
-
-
-
-
-    private void Awake()
+    private void Start()
     {
-        player = FindObjectOfType<PlayerHealth>().transform; // Get the Transform component of the player
-        animator = GetComponent<Animator>();
-        float timeOffset = Random.Range(0f, 2f * Mathf.PI);
-        initialPosition = transform.position - new Vector3(timeOffset, 0f, 0f); // Adjust initial position based on offset
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        //animator = GetComponent<Animator>();
 
-        // Check if playerPosition is set yet
-        if (playerPosition == Vector3.zero)
-        {
-            // Find the player object by its name
-            GameObject playerObject = GameObject.Find("Ship");
-            if (playerObject != null)
-            {
-                // Get the player's position
-                playerPosition = playerObject.transform.position;
-            }
-        }
+        // Set the initial NavMeshAgent speed/attack range
+        navMeshAgent.speed = moveSpeed;
+        navMeshAgent.stoppingDistance = attackRange;
 
-        // Find the object with the PlayerHealth script
-        if (playerHealth == null)
-        {
-            playerHealth = FindObjectOfType<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                // Get the PlayerHealth component of the object with PlayerHealth script
-                playerHealth = playerHealth.GetComponent<PlayerHealth>();
-            }
-        }
+        InvokeRepeating("ChangeSpeed", 0f, speedChangeInterval);
 
-        initialSpeed = moveSpeed; // Store the initial movement speed
-
-        // Calculate the direction from the enemy to the player
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        // Calculate the rotation to look at the player
-        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
-
-        // Apply the rotation to the enemy's transform
-        transform.rotation = lookRotation;
+        navMeshAgent.SetDestination(player.position);
 
     }
 
-
+    //changing the speed every 2 seconds to make movement feel not so telegraphed
+    private void ChangeSpeed()
+    {
+        navMeshAgent.speed = Random.Range(minSpeed, maxSpeed);
+    }
 
     private void Update()
     {
-        if (player == null)
-            return; // No player found, dont do code or else you get errors
+        //making sure there is an enemy to move towards
+        if (playerObject == null)
+            return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        // Calculate the distance between the enemy's position and the player's closest point on the collider
+        float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.ClosestPoint(transform.position));
 
-        if (distanceToPlayer <= attackRange)
+
+        // Find the nearest NavMesh point to the player's position
+        Vector3 nearestNavMeshPoint = FindNearestNavMeshPoint(player.position);
+
+        // Set the destination to the nearest NavMesh point
+        navMeshAgent.SetDestination(nearestNavMeshPoint);
+
+
+        if (Vector3.Distance(transform.position, player.position) <= attackRange)
         {
-            isAttacking = true;
-            // Stop moving towards player when attacking
+            // In range, so attack
             HandleAttack();
         }
         else
         {
-            // Update the speed periodically
-            speedChangeTimer += Time.deltaTime;
-            if (speedChangeTimer >= speedChangeInterval)
-            {
-                // Toggle speed direction
-                isSpeedIncreasing = !isSpeedIncreasing;
-                speedChangeTimer = 0f;
-            }
-            
-            // Adjust the movement speed based on the speed direction
-            moveSpeed = isSpeedIncreasing ? Mathf.Lerp(minSpeed, maxSpeed, speedChangeTimer / speedChangeInterval) : Mathf.Lerp(maxSpeed, minSpeed, speedChangeTimer / speedChangeInterval);
-
-            // Move towards the player
-            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
-
-            isAttacking = false;
+            // Set the destination to the player's position
+            navMeshAgent.SetDestination(player.position);
         }
 
     }
@@ -155,6 +119,18 @@ public class EnemyMovement : MonoBehaviour
 
 
     }
+
+    private Vector3 FindNearestNavMeshPoint(Vector3 position)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(position, out hit, Mathf.Infinity, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        return position; // Return the original position if no valid NavMesh point is found
+    }
+
 
 }
 

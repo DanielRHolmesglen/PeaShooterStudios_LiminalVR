@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: -6460314747223218481}
   - component: {fileID: -1356865091721059173}
   - component: {fileID: 6121433481172962770}
+  - component: {fileID: -1375936165219301932}
   m_Layer: 0
   m_Name: SoldierBug
   m_TagString: Untagged
@@ -174,14 +175,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3768150325318143159}
-  m_LocalRotation: {x: -0, y: -0.71598965, z: -0, w: 0.6981109}
-  m_LocalPosition: {x: 0.08478619, y: 0, z: -0.1349988}
-  m_LocalScale: {x: 1.6061, y: 1.2989, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.508, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1.7034078}
   m_Children:
   - {fileID: 5884791247117236271}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -91.449005, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3768150325318143154
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -333,6 +334,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bar: {fileID: 5768240144657103845}
+--- !u!195 &-1375936165219301932
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3768150325318143159}
+  m_Enabled: 1
+  m_AgentTypeID: -334000983
+  m_Radius: 0.5
+  m_Speed: 4.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.99999994
+  m_BaseOffset: 0.49999997
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8693373695542606983
 GameObject:
   m_ObjectHideFlags: 0

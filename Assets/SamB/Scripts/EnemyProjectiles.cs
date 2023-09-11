@@ -7,22 +7,17 @@ using UnityEngine;
 public class EnemyProjectiles : MonoBehaviour
 {
     public float rangedDamage = 5f;
-    public float maxDistance = 10f; 
+    public float maxDistance = 10f;
 
-    private Vector3 initialPosition;
-    private Transform player = EnemyMovement.player;
-    private Vector3 playerPosition = EnemyMovement.playerPosition;
+    private Vector3 initialPosition; //used to check when to destroy the projectile. 
+    private Transform player = EndGame.player;
+    //private Vector3 playerPosition = EndGame.playerPosition;
+    private PlayerHealth playerHealth = EndGame.playerHealth;
 
-    public void Damage()
+
+    private void Start()
     {
-        //Reference to the playehealth script. Referencing the enemymovement static reference. 
-        PlayerHealth playerHealth = EnemyMovement.playerHealth;
-
-        if (playerHealth != null)
-        {
-            //do damage to health script "call script + function(amount, damage type)"
-            playerHealth.Damage(rangedDamage, DamageType.Enemy);
-        }
+         initialPosition = transform.position;
     }
 
     void Update()
@@ -32,13 +27,30 @@ public class EnemyProjectiles : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        // Check for collision with the player
-        CheckCollisionWithPlayer();
+        
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the collision is with a player collider
+        if (other == player.GetComponent<Collider>())
+        {
+            // Damage the player and destroy the projectile
+            Damage();
+            Destroy(gameObject);
+        }
+    }
 
+    public void Damage()
+    {
+        if (playerHealth != null)
+        {
+            //do damage to health script "call script + function(amount, damage type)"
+            playerHealth.Damage(rangedDamage, DamageType.Enemy);
+        }
+    }
 
+    /*
     private void CheckCollisionWithPlayer()
     {
 
@@ -51,7 +63,7 @@ public class EnemyProjectiles : MonoBehaviour
         // If the distance is within the collision threshold, consider it a hit
         if (distanceToPlayer <= collisionThreshold)
         {
-            PlayerHealth playerHealth = EnemyMovement.playerHealth;
+            PlayerHealth playerHealth = EndGame.playerHealth;
 
             if (playerHealth != null)
             {
@@ -61,4 +73,7 @@ public class EnemyProjectiles : MonoBehaviour
             Destroy(gameObject); // Destroy the projectile on collision
         }
     }
+    */
+
+
 }

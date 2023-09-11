@@ -36,9 +36,10 @@ public class GunController : MonoBehaviour
         //start charging gun when you press down
         if (primaryInput.GetButton(VRButton.One) || Input.GetMouseButton(0))
         {
-            //Debug.Log("Firing button pressed");
             //turn the bool on 
             isCharging = true;
+            chargingParticles.Play();
+
 
         }
 
@@ -64,9 +65,8 @@ public class GunController : MonoBehaviour
 
         if (isCharging)
         {
-            // charging animation
             // charging sound
-
+            chargingParticles.Play();
             chargeTimer += Time.deltaTime;
             chargingParticles.Play();
 
