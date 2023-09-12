@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
     public float minSpeed = 1.0f; // Minimum movement speed
     public float maxSpeed = 5.0f; // Maximum movement speed
     public float speedChangeInterval = 2.0f; // Time interval for changing speed
+    private bool isInAttackRange = false;
     private float timeOffset; // Gives each enemy a slightly different movement pattern
     public float moveSpeed; // stores move speed
     public float attackRange = 10.0f;
@@ -60,24 +61,24 @@ public class EnemyMovement : MonoBehaviour
 
         // Calculate the distance between the enemy's position and the player's closest point on the collider
         float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.ClosestPoint(transform.position));
+        //Debug.Log("Distance to player: " + distanceToPlayer); 
 
 
-        // Find the nearest NavMesh point to the player's position
-        Vector3 nearestNavMeshPoint = FindNearestNavMeshPoint(player.position);
-
-        // Set the destination to the nearest NavMesh point
-        navMeshAgent.SetDestination(nearestNavMeshPoint);
+        bool isInAttackRange = distanceToPlayer <= attackRange;
 
 
-        if (Vector3.Distance(transform.position, player.position) <= attackRange)
+        // If the enemy is in attack range, stop moving
+        if (isInAttackRange)
         {
-            // In range, so attack
+            Debug.Log("Player is in attack range!"); 
+            navMeshAgent.isStopped = true;
             HandleAttack();
         }
         else
         {
-            // Set the destination to the player's position
-            navMeshAgent.SetDestination(player.position);
+            Debug.Log("Enemy is not in attack range.");
+            navMeshAgent.isStopped = false;
+
         }
 
     }
@@ -86,6 +87,11 @@ public class EnemyMovement : MonoBehaviour
     {
         // Update attackTimer
         attackTimer += Time.deltaTime;
+
+        Debug.Log("Attack Timer: " + attackTimer);
+        Debug.Log("Attack Cooldown: " + attackCooldown);
+
+       
 
         if (attackTimer >= attackCooldown)
         {
@@ -101,14 +107,19 @@ public class EnemyMovement : MonoBehaviour
             if (IsArtillery)
             {
                 artillery.Attack();
+                Debug.Log("Artillery attack called");
             }
             else if (IsSoldier)
             {
                 soldier.Attack();
+                Debug.Log("Soldier attack called");
+
             }
             else if (IsDrifter)
             {
                 drifter.Attack();
+                Debug.Log("Drifter attack called");
+
             }
             else
             {
@@ -119,18 +130,6 @@ public class EnemyMovement : MonoBehaviour
 
 
     }
-
-    private Vector3 FindNearestNavMeshPoint(Vector3 position)
-    {
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(position, out hit, Mathf.Infinity, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-
-        return position; // Return the original position if no valid NavMesh point is found
-    }
-
 
 }
 
