@@ -70,13 +70,13 @@ public class EnemyMovement : MonoBehaviour
         // If the enemy is in attack range, stop moving
         if (isInAttackRange)
         {
-            Debug.Log("Player is in attack range!"); 
+            //Debug.Log("Player is in attack range!"); 
             navMeshAgent.isStopped = true;
             HandleAttack();
         }
         else
         {
-            Debug.Log("Enemy is not in attack range.");
+            //Debug.Log("Enemy is not in attack range.");
             navMeshAgent.isStopped = false;
 
         }
@@ -88,8 +88,8 @@ public class EnemyMovement : MonoBehaviour
         // Update attackTimer
         attackTimer += Time.deltaTime;
 
-        Debug.Log("Attack Timer: " + attackTimer);
-        Debug.Log("Attack Cooldown: " + attackCooldown);
+        //Debug.Log("Attack Timer: " + attackTimer);
+        //Debug.Log("Attack Cooldown: " + attackCooldown);
 
        
 

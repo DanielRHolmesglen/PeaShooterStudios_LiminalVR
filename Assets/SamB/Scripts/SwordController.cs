@@ -6,8 +6,7 @@ using UnityEngine;
 /// </summary>
 public class SwordController : MonoBehaviour
 {
-    
-        public float swordDamage = 20f;
+    public float swordDamage = 20f;
 
     private void OnCollisionEnter(Collision collision)
     {
