@@ -22,19 +22,19 @@ public class EnemyMovement : MonoBehaviour
     public bool IsArtillery;
     public bool IsDrifter;
 
-    private Transform player = EndGame.player;
-    private GameObject playerObject = EndGame.playerObject;
-    private PlayerHealth playerHealth = EndGame.playerHealth;
+    private Transform player;
     private Collider playerCollider = EndGame.playerCollider;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
 
-    private float attackTimer = 0f; //the clock that tracks attackcooldown time
+    private float attackTimer = 0f; //clock that tracks attack cooldowns
 
     private void Start()
     {
+        //enemies navmesh refrence and players reference for position
         navMeshAgent = GetComponent<NavMeshAgent>();
+        player = EndGame.player;
         //animator = GetComponent<Animator>();
 
         // Set the initial NavMeshAgent speed/attack range
@@ -43,11 +43,16 @@ public class EnemyMovement : MonoBehaviour
 
         InvokeRepeating("ChangeSpeed", 0f, speedChangeInterval);
 
-        navMeshAgent.SetDestination(player.position);
+        // Initially, find the closest point on the NavMesh to the ship's collider, then we use that to find the best place on the navmesh to move the enemy towards
+        Vector3 closestPointOnShipCollider = player.GetComponent<Collider>().ClosestPoint(transform.position);
+        Vector3 closestPointOnNavMesh = FindClosestNavMeshPoint(closestPointOnShipCollider);
+
+        // Set the NavMeshAgent's destination to the closest point on the NavMesh
+        navMeshAgent.SetDestination(closestPointOnNavMesh);
 
     }
 
-    //changing the speed every 2 seconds to make movement feel not so telegraphed
+    //changing the speed every 2 seconds to make movement feel not so linear
     private void ChangeSpeed()
     {
         navMeshAgent.speed = Random.Range(minSpeed, maxSpeed);
@@ -55,55 +60,50 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        //making sure there is an enemy to move towards
-        if (playerObject == null)
-            return;
 
         // Calculate the distance between the enemy's position and the player's closest point on the collider
         float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.ClosestPoint(transform.position));
         //Debug.Log("Distance to player: " + distanceToPlayer); 
 
 
+        // Check if the target is in attack range
         bool isInAttackRange = distanceToPlayer <= attackRange;
 
-
-        // If the enemy is in attack range, stop moving
+        // If the enemy is in attack range, stop moving and handle the attack
         if (isInAttackRange)
         {
-            //Debug.Log("Player is in attack range!"); 
             navMeshAgent.isStopped = true;
             HandleAttack();
+            //Debug.Log("Player is in attack range!"); 
         }
         else
         {
-            //Debug.Log("Enemy is not in attack range.");
+            // If not in attack range, continue moving towards the player
             navMeshAgent.isStopped = false;
-
+            FindClosestNavMeshPoint(player.position);
+            //Debug.Log("Enemy is not in attack range.");
         }
 
     }
     
     private void HandleAttack()
     {
+
         // Update attackTimer
         attackTimer += Time.deltaTime;
 
-        //Debug.Log("Attack Timer: " + attackTimer);
-        //Debug.Log("Attack Cooldown: " + attackCooldown);
+        //Get references to appropriate attacks
+        EnemySoldier soldier = GetComponent<EnemySoldier>();
+        EnemyArtillery artillery = GetComponent<EnemyArtillery>();
+        EnemyDrifter drifter = GetComponent<EnemyDrifter>();
 
-       
-
+        //if timer is at respect attack cooldown time, then execute attack and reset timer
         if (attackTimer >= attackCooldown)
         {
-
-            //reset timer
+            // Reset the timer
             attackTimer = 0f;
 
-            //call the appropriate attack
-            EnemySoldier soldier = GetComponent<EnemySoldier>();
-            EnemyArtillery artillery = GetComponent<EnemyArtillery>();
-            EnemyDrifter drifter = GetComponent<EnemyDrifter>();
-
+            // Call the appropriate attack based on enemy type
             if (IsArtillery)
             {
                 artillery.Attack();
@@ -113,23 +113,38 @@ public class EnemyMovement : MonoBehaviour
             {
                 soldier.Attack();
                 Debug.Log("Soldier attack called");
-
             }
             else if (IsDrifter)
             {
                 drifter.Attack();
                 Debug.Log("Drifter attack called");
-
             }
             else
             {
+                Debug.Log("No  enemy type found");
                 return;
             }
-            // Add more conditions for other enemy types if needed
+           
+            // Add more conditions for other enemy types
         }
 
-
     }
+
+
+    // Helper function to set the NavMeshAgent's destination while making sure its actually hitting a point on a navmesh
+    private Vector3 FindClosestNavMeshPoint(Vector3 position)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(position, out hit, Mathf.Infinity, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        // If no valid NavMesh point is found, return the original position
+        Debug.Log("No valid navmesh point found");
+        return position;
+    }
+
 
 }
 

@@ -79,7 +79,7 @@ public class WaveManager : MonoBehaviour
 
         // Sample a valid position on the NavMesh near the spawn point
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(spawnPosition, out hit, 3f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(spawnPosition, out hit, 5f, NavMesh.AllAreas))
         {
             spawnPosition = hit.position;
         }

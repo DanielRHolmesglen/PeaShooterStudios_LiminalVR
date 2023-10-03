@@ -17,7 +17,7 @@ public class EndGame : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Transform>();
-        playerCollider = GetComponent<BoxCollider>();
+        playerCollider = GetComponent<MeshCollider>();
         playerObject = gameObject;
         playerHealth = GetComponent<PlayerHealth>();
         playerPosition = transform.position;
