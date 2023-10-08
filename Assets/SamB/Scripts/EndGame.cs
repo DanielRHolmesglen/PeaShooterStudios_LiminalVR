@@ -9,7 +9,7 @@ public class EndGame : MonoBehaviour
     public static Transform player; //Where the player is.
     public static Vector3 playerPosition; // player's Vector3 position
     public static PlayerHealth playerHealth; // reference to player's health for all scripts to easily use 
-    public static Collider playerCollider; //players collider, mainly for monvment and projectiles
+    public static MeshCollider playerCollider; //players collider, mainly for enemyMovement and projectiles
     public static GameObject playerObject; //used for enemymovement
 
 

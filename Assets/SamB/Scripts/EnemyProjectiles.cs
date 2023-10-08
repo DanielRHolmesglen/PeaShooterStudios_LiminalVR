@@ -11,13 +11,19 @@ public class EnemyProjectiles : MonoBehaviour
 
     private Vector3 initialPosition; //used to check when to destroy the projectile. 
     private Transform player = EndGame.player;
-    //private Vector3 playerPosition = EndGame.playerPosition;
+    private Collider playerCollider = EndGame.playerCollider;
     private PlayerHealth playerHealth = EndGame.playerHealth;
+
+    public AudioClip projectileHit;
+    private AudioSource audioSource;
 
 
     private void Start()
     {
-         initialPosition = transform.position;
+        initialPosition = transform.position;
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = projectileHit;
     }
 
     void Update()
@@ -27,17 +33,20 @@ public class EnemyProjectiles : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        // Check if the collision is with a player collider
-        if (other == player.GetComponent<Collider>())
+        // Check if the collision involes a player collider
+        if (collision.collider == playerCollider)
         {
             // Damage the player and destroy the projectile
             Damage();
-            Destroy(gameObject);
+            Invoke("DestroyProjectile", 0.3f);
+
+            audioSource.Play();
+
         }
     }
 
@@ -48,6 +57,12 @@ public class EnemyProjectiles : MonoBehaviour
             //do damage to health script "call script + function(amount, damage type)"
             playerHealth.Damage(rangedDamage, DamageType.Enemy);
         }
+    }
+
+    private void DestroyProjectile()
+    {
+        Destroy(gameObject);
+
     }
 
     /*

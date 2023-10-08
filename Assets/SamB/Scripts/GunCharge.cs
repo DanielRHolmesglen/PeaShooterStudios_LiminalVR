@@ -5,14 +5,19 @@ using UnityEngine.UI;
 
 public class GunCharge : MonoBehaviour
 {
+    public AudioClip laserChargeSound;
+    private AudioSource audioSource;
+
     public Image bar; // Reference to the UI Image of bar
-    public GameObject gunObject; //refernce to the gun
+    public GameObject gunObject; //reference to the gun with the guncontroller script
 
     public Color minChargeColor = new Color(0.6f, 0.25f, 0.2f); 
     public Color maxChargeColor = new Color(0.2f, 0.6f, 0.55f); 
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = laserChargeSound;
 
         GunController gunController = gunObject.GetComponent<GunController>();
 
@@ -45,7 +50,16 @@ public class GunCharge : MonoBehaviour
             //fill the charge bar
             bar.fillAmount = fillAmount;
 
-       
+
+        if (gunController.isCharging)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource.Stop();
+        }
     }
+
 
 }

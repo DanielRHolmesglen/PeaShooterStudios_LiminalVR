@@ -10,7 +10,7 @@ public class SwordController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the collision involves an enemy
+        // Get the EnemyHealth component from the hit enemies. This is also used in a check to make sure the thing hit was an enemy. 
         EnemyHealth enemyHealth = collision.collider.GetComponent<EnemyHealth>();
 
         if (enemyHealth != null)

@@ -10,6 +10,9 @@ using System;
 /// </summary>
 public class GunController : MonoBehaviour 
 {
+    public AudioClip laserFireSound;
+    private AudioSource audioSource;
+
     public float minChargeTime = 0.5f;
     public float maxChargeTime = 1.5f;
     public float minDamage = 5f;
@@ -27,6 +30,10 @@ public class GunController : MonoBehaviour
         laserLine = GetComponent<LineRenderer>();         // Find  Line Renderer on the gun
         chargingParticles = GetComponentInChildren<ParticleSystem>();
         laserLine.enabled = false; // Disable the Line Renderer initially
+
+        //get sound stuff for firing the laser
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = laserFireSound;
     }
 
     private void Update()
@@ -51,6 +58,7 @@ public class GunController : MonoBehaviour
                 isCharging = false;
                 FireLaser(chargeTimer);
                 chargingParticles.Stop();
+
 
             }
 
@@ -83,6 +91,9 @@ public class GunController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
         {
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+
+            //play laser fire sound
+            audioSource.Play();
 
             // Enable the laser (Line Renderer) and set its positions
             laserLine.enabled = true;

@@ -8,11 +8,21 @@ public class EnemySoldier : MonoBehaviour
 {
     public float meleeDamage = 10f;
 
+    // Get reference to playerhealth
+    PlayerHealth playerHealth = EndGame.playerHealth;
+
+    public AudioClip soldierAttack;
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = soldierAttack;
+    }
+
     //this is called by enemy movement when its close enough to attack
     public void Attack()
     {
-        // Get the player's health script
-        PlayerHealth playerHealth = EndGame.playerHealth;
 
         if (playerHealth != null)
         {
@@ -20,6 +30,7 @@ public class EnemySoldier : MonoBehaviour
             playerHealth.Damage(meleeDamage, DamageType.Enemy);
         }
 
+        audioSource.Play();
         // Play attack animation
     }
 

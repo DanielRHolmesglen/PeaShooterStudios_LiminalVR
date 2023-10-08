@@ -32,7 +32,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-        //enemies navmesh refrence and players reference for position
+        //get enemies navmesh refrence and players reference for position
         navMeshAgent = GetComponent<NavMeshAgent>();
         player = EndGame.player;
         //animator = GetComponent<Animator>();
@@ -44,7 +44,7 @@ public class EnemyMovement : MonoBehaviour
         InvokeRepeating("ChangeSpeed", 0f, speedChangeInterval);
 
         // Initially, find the closest point on the NavMesh to the ship's collider, then we use that to find the best place on the navmesh to move the enemy towards
-        Vector3 closestPointOnShipCollider = player.GetComponent<Collider>().ClosestPoint(transform.position);
+        Vector3 closestPointOnShipCollider = playerCollider.ClosestPoint(transform.position);
         Vector3 closestPointOnNavMesh = FindClosestNavMeshPoint(closestPointOnShipCollider);
 
         // Set the NavMeshAgent's destination to the closest point on the NavMesh

@@ -28,12 +28,12 @@ public class WaveManager : MonoBehaviour
             return;
         }
         
-
-        StartCoroutine(SpawnWaves());
+        //This is no longer done by wave manager, instead is done by StartingSequence so it happens at the correct time.
+        //StartCoroutine(SpawnWaves());
     }
 
     //spawn waves, with set wait times between each spawn/wave
-    private IEnumerator SpawnWaves()
+    public IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(2.0f); // Wait for 2 seconds before starting to ensure NavMesh is built
 
