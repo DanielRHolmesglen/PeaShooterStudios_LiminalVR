@@ -27,6 +27,9 @@ public class StartingSequence: MonoBehaviour
     public KeyCode skipKey = KeyCode.Space;
     public WaveManager waveManager;
 
+    float fadeDuration;
+
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -47,31 +50,16 @@ public class StartingSequence: MonoBehaviour
         }
     }
 
+
     private IEnumerator PlayStartingSequence()
     {
         tutorialOn = true;
-
-        // Set the initial alpha of the black screen to 0
-        Color startColor = blackScreenImage.color;
-        startColor.a = 0;
-        blackScreenImage.color = startColor;
-
-        //setting fade duration for fades in/outs
-        float fadeDuration = 3.0f;
-        float startTime = Time.time;
-
-        // Decrease alpha over 2 seconds to fade in as you wake up
-        while (Time.time - startTime < fadeDuration)
-        {
-            float progress = (Time.time - startTime) / fadeDuration;
-            startColor.a = Mathf.Lerp(1, 0, progress);
-            blackScreenImage.color = startColor;
-            yield return null;
-        }
+        fadeDuration = 4.5f;
+        StartCoroutine(FadeIn());
 
         // Play ship landing/crashing sounds
         audioSource.PlayOneShot(shipLanding);
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.5f);
 
         // Show Ai with initial intro/backrgound
         planetModel.SetActive(true);
@@ -79,9 +67,9 @@ public class StartingSequence: MonoBehaviour
         hologramText.text = "Initialising...";
         yield return new WaitForSeconds(2.0f);
         hologramText.text = "Glad to see you're awake, and more importantly, unharmed.";
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.0f);
         hologramText.text = "Something hit us as we were trying to land, we had a very rocky landing.";
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.0f);
         hologramText.gameObject.SetActive(false);
         planetModel.SetActive(false);
 
@@ -89,7 +77,7 @@ public class StartingSequence: MonoBehaviour
         shipModel.SetActive(true);
         hologramText.gameObject.SetActive(true);
         hologramText.text = "Behind you is our ship, we must defend it until this planets AI can upload itself on board.";
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(6.0f);
         shipModel.SetActive(false);
 
         // Showing and hiding gun/sword to show what they do and theyr keybinds
@@ -98,7 +86,7 @@ public class StartingSequence: MonoBehaviour
         gunText.gameObject.SetActive(true);
         swordText.gameObject.SetActive(true);
         swordModel.SetActive(true);
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(8.0f);
         swordModel.SetActive(false);
         gunModel.SetActive(false);
         gunText.gameObject.SetActive(false);
@@ -107,14 +95,60 @@ public class StartingSequence: MonoBehaviour
 
         bugModel.SetActive(true);
         hologramText.text = "These are the locals, hostile alien bug creatures that are trying to destroy the ship to stop us from escaping.";
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(6.0f);
         bugModel.SetActive(false);
 
 
         //make screen black as screeches play
-        hologramText.text = "Here they come! Time for you to squash these bugs.";
+        hologramText.text = "Here they come! Time for you to slay some bugs.";
         audioSource.PlayOneShot(bugScreeching);
 
+        fadeDuration = 3f;
+        StartCoroutine(FadeOutBlack());
+        yield return new WaitForSeconds(3.0f);
+
+        hologramText.gameObject.SetActive(false);
+        fadeDuration = 2;
+        StartCoroutine(FadeIn());
+        box.SetActive(false);
+
+        //start wave spawning as the game now 'starts' and tutorial ends
+        tutorialOn = false;
+        waveManager.StartCoroutine(waveManager.SpawnWaves());
+        //Destroy(gameObject);
+
+    }
+
+    public IEnumerator FadeIn()
+    {
+        // Set the initial alpha of the black screen to 0
+        Color startColor = blackScreenImage.color;
+        startColor.a = 0;
+        blackScreenImage.color = startColor;
+
+        float startTime = Time.time;
+
+        startTime = Time.time;
+        // Decrease black image alpha over 1 second (AKA remove black screen)
+        while (Time.time - startTime < fadeDuration)
+        {
+            float progress = (Time.time - startTime) / fadeDuration;
+            startColor.a = Mathf.Lerp(1, 0, progress);
+            blackScreenImage.color = startColor;
+            yield return null;
+        }
+    }
+
+    public IEnumerator FadeOutBlack()
+    {
+        // Set the initial alpha of the black screen to 100
+        Color startColor = blackScreenImage.color;
+        startColor.a = 100;
+        blackScreenImage.color = startColor;
+
+        float startTime = Time.time;
+
+        //Increase alpha gradually to make screen black
         startTime = Time.time;
         while (Time.time - startTime < fadeDuration)
         {
@@ -123,34 +157,11 @@ public class StartingSequence: MonoBehaviour
             blackScreenImage.color = startColor;
             yield return null;
         }
-
-        hologramText.gameObject.SetActive(false);
-
-        // Decrease black image alpha over 1 second as game now sarts
-        box.SetActive(false);
-
-        startTime = Time.time;
-        fadeDuration = 1.0f;
-
-        while (Time.time - startTime < fadeDuration)
-        {
-            float progress = (Time.time - startTime) / fadeDuration;
-            startColor.a = Mathf.Lerp(1, 0, progress);
-            blackScreenImage.color = startColor;
-            yield return null;
-        }
-
-        tutorialOn = false;
-        //start wave spawning as the game now 'starts'
-        waveManager.StartCoroutine(waveManager.SpawnWaves());
-        Destroy(gameObject);
-
     }
-
 
     private void EndSequence()
     {
-        //make sure everything is actually off (as you end the coroutine early). Could also just destroy the game objects.
+        //make sure everything is actually off (as you end the coroutine early).
         hologramText.gameObject.SetActive(false);
         planetModel.SetActive(false);
         swordModel.SetActive(false);
@@ -165,8 +176,7 @@ public class StartingSequence: MonoBehaviour
         tutorialOn = false;
         box.SetActive(false);
         waveManager.StartCoroutine(waveManager.SpawnWaves());
-        Destroy(gameObject);
-
+        //Destroy(gameObject);
 
     }
 

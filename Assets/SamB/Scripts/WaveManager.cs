@@ -86,7 +86,7 @@ public class WaveManager : MonoBehaviour
 
         // Spawning the enemy
         GameObject newEnemy = Instantiate(enemyPrefabs[randomEnemyIndex], spawnPosition, spawnRotation);
-        navMeshSurface.BuildNavMesh(); // Rebuild NavMesh after spawning an enemy
+        //navMeshSurface.BuildNavMesh(); //Can't be done during runtime/isnt needed. Dunno why it was suggested.
 
     }
 

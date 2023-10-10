@@ -17,18 +17,21 @@ public class GunController : MonoBehaviour
     public float maxChargeTime = 1.5f;
     public float minDamage = 5f;
     public float maxDamage = 25f;
+    public float maxRange = 3f;
 
     public float chargeTimer;
     public bool isCharging;
 
     private LineRenderer laserLine; //reference to line renderer for laser
     public ParticleSystem chargingParticles; // Reference to charging particle effect
+    public Transform gunBarrelEnd;
+
 
 
     private void Start()
     {
-        laserLine = GetComponent<LineRenderer>();         // Find  Line Renderer on the gun
-        chargingParticles = GetComponentInChildren<ParticleSystem>();
+        laserLine = GetComponent<LineRenderer>();  // Find  Line Renderer on the gun
+        //chargingParticles = GetComponentInChildren<ParticleSystem>();
         laserLine.enabled = false; // Disable the Line Renderer initially
 
         //get sound stuff for firing the laser
@@ -50,34 +53,31 @@ public class GunController : MonoBehaviour
 
         }
 
-        //when mouse button released, fire laser
-        if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0))
+        if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0)) //when mouse button released, fire laser
+
         {
-            if (chargeTimer >= minChargeTime)
+            if (chargeTimer >= minChargeTime) //fire laser if the minimum charge time was reached
             {
                 isCharging = false;
                 FireLaser(chargeTimer);
                 chargingParticles.Stop();
-
-
             }
 
-            else
+            else //do not fire laser if minimum charge time wasnt reached
             {
                 isCharging = false;
                 chargeTimer = 0f;
                 chargingParticles.Stop();
-
             }
         }
 
         if (isCharging)
         {
-            // charging sound
-            chargingParticles.Play();
-            chargeTimer += Time.deltaTime;
+            //playing charge effect
             chargingParticles.Play();
 
+            //increase charge timer
+            chargeTimer += Time.deltaTime;
         }
     }
 
@@ -87,27 +87,40 @@ public class GunController : MonoBehaviour
         //reset charge timer
         chargeTimer = 0f;
 
-        //if the raycast is hitting an enemy 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
+        //if the raycast is hitting something 
+        if (Physics.Raycast(gunBarrelEnd.position, gunBarrelEnd.forward, out RaycastHit hit))
         {
-            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-
             //play laser fire sound
             audioSource.Play();
 
-            // Enable the laser (Line Renderer) and set its positions
+            // Draw the laser (enable Line Renderer and set positions)
             laserLine.enabled = true;
-            laserLine.SetPosition(0, transform.position);
+            laserLine.SetPosition(0, gunBarrelEnd.position);
             laserLine.SetPosition(1, hit.point);
             Invoke("TurnOffLaser", 0.3f);
 
-            if (enemyHealth != null)
+            //Get reference to enemy health of the hit thing
+            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
+
+            if (enemyHealth != null)  //If we got a reference to enemy health
+
             {
                 float damage = Mathf.Lerp(minDamage, maxDamage, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
 
 
                 enemyHealth.Damage(damage, DamageType.Gun);
             }
+        }
+
+        else //if the gun does not hit anything
+        {
+            Vector3 targetPosition = gunBarrelEnd.position + gunBarrelEnd.forward * maxRange;
+
+            // Enable the laser (Line Renderer) and set its positions
+            laserLine.enabled = true;
+            laserLine.SetPosition(0, gunBarrelEnd.position);
+            laserLine.SetPosition(1, targetPosition);
+            Invoke("TurnOffLaser", 0.3f);
         }
     }
 

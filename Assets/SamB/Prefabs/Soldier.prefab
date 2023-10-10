@@ -913,7 +913,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 099a8dd42c47c82448d70d42c34d854f, type: 3}
+  - {fileID: 2100000, guid: fe168f91940e72b42a39c071e1d09c2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1002,8 +1002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92931c70e2c39514a886c8fae4393967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 3
-  maxSpeed: 6
+  minSpeed: 6
+  maxSpeed: 8
   speedChangeInterval: 2
   moveSpeed: 3.59
   attackRange: 2.5
@@ -2016,8 +2016,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9072280091189652253}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.025, z: 1.19}
-  m_LocalScale: {x: 1.16202, y: 0.4287, z: 2.6511}
+  m_LocalPosition: {x: 0.015684, y: 0.977, z: 1.19}
+  m_LocalScale: {x: 2.9047813, y: 0.898118, z: 2.6511}
   m_Children:
   - {fileID: 9072280091998109322}
   - {fileID: 9072280091612755089}

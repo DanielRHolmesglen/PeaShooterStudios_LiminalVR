@@ -65,30 +65,4 @@ public class EnemyProjectiles : MonoBehaviour
 
     }
 
-    /*
-    private void CheckCollisionWithPlayer()
-    {
-
-        // Calculate the distance between the projectile and the player
-        float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
-
-        // Define a collision threshold
-        float collisionThreshold = 3.5f;
-
-        // If the distance is within the collision threshold, consider it a hit
-        if (distanceToPlayer <= collisionThreshold)
-        {
-            PlayerHealth playerHealth = EndGame.playerHealth;
-
-            if (playerHealth != null)
-            {
-                playerHealth.Damage(rangedDamage, DamageType.Enemy);
-            }
-
-            Destroy(gameObject); // Destroy the projectile on collision
-        }
-    }
-    */
-
-
 }

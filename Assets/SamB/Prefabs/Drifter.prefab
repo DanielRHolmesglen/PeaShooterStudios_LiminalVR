@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5761083151490855092, guid: c4ca30acdeedfe447939f56e3c87252c, type: 3}
+  - {fileID: 2100000, guid: 7bd388898e001674c81351f04c794271, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92931c70e2c39514a886c8fae4393967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 1
-  maxSpeed: 2
+  minSpeed: 3
+  maxSpeed: 4
   speedChangeInterval: 2
   moveSpeed: 2.36
   attackRange: 8
@@ -321,8 +321,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7101603292218516610}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.030021, y: 5.175, z: 0}
-  m_LocalScale: {x: 3.6097221, y: 0.60342073, z: 0.27416998}
+  m_LocalPosition: {x: 0.030021, y: 5.22, z: 1.48}
+  m_LocalScale: {x: 3.6097221, y: 1.1360081, z: 0.27416998}
   m_Children:
   - {fileID: 7101603294254598788}
   - {fileID: 7101603292667487107}
