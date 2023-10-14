@@ -19,7 +19,7 @@ public class GunCharge : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = laserChargeSound;
 
-        GunController gunController = gunObject.GetComponent<GunController>();
+        BoomBoomGunController gunController = gunObject.GetComponent<BoomBoomGunController>();
 
         // Make sure a reference to the Health component is provided
         if (gunController == null)
@@ -35,7 +35,7 @@ public class GunCharge : MonoBehaviour
     //could make this an event like health changing, but update is much easier for the moment
     private void Update()
     {
-        GunController gunController = gunObject.GetComponent<GunController>();
+        BoomBoomGunController gunController = gunObject.GetComponent<BoomBoomGunController>();
         
 
             // Calculate the fill amount based on current charge time

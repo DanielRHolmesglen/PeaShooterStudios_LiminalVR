@@ -11,7 +11,7 @@ public class EnemyProjectiles : MonoBehaviour
 
     private Vector3 initialPosition; //used to check when to destroy the projectile. 
     private Transform player = EndGame.player;
-    private Collider playerCollider = EndGame.playerCollider;
+    private Collider[] playerCollider = EndGame.PlayerColliders;
     private PlayerHealth playerHealth = EndGame.playerHealth;
 
     public AudioClip projectileHit;
@@ -39,15 +39,19 @@ public class EnemyProjectiles : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Check if the collision involes a player collider
-        if (collision.collider == playerCollider)
+        foreach (Collider playerCollider in playerCollider)
         {
-            // Damage the player and destroy the projectile
-            Damage();
-            Invoke("DestroyProjectile", 0.3f);
+            if (collision.collider == playerCollider)
+            {
+                // Damage the player and destroy the projectile
+                Damage();
+                Invoke("DestroyProjectile", 0.3f);
 
-            audioSource.Play();
+                audioSource.Play();
 
+            }
         }
+            
     }
 
     public void Damage()

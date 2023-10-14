@@ -170,6 +170,9 @@ public class StartingSequence: MonoBehaviour
         swordText.gameObject.SetActive(false);
         shipModel.SetActive(false);
         bugModel.SetActive(false);
+        //make sure screen is not 'fading in' still
+        Color startColor = blackScreenImage.color;
+        startColor.a = 0;
 
 
 

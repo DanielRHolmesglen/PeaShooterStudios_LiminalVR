@@ -8,9 +8,12 @@ public class EndGame : MonoBehaviour
 {
     //static references for other scripts to use
     public static Transform player; //Where the player is.
-    public static Vector3 playerPosition; // player's Vector3 position
+    public static Vector3 playerPosition; // player's Vector3 position+
     public static PlayerHealth playerHealth; // reference to player's health for all scripts to easily use 
-    public static Collider playerCollider; //players collider, mainly for enemyMovement and projectiles
+
+    public static Collider[] PlayerColliders; //static reference for player colliders, mainly for enemyMovement and projectiles
+    public Collider[] setPlayerColliders; //assign them in inspector
+
     public static GameObject playerObject; //used for enemymovement
 
     public StartingSequence startingSequence;
@@ -22,7 +25,8 @@ public class EndGame : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Transform>();
-        playerCollider = GetComponentInChildren<BoxCollider>(); //getting the box collider thats a child of the ship, with this script on it
+        //playerCollider = GetComponentInChildren<ShipCollidersTag>(); //getting the script tag of "ShipTargetCollider", with this component on it. It's children's colliders should also count.
+        PlayerColliders = setPlayerColliders;
         playerObject = gameObject;
         playerHealth = GetComponent<PlayerHealth>();
         playerPosition = transform.position;

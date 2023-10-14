@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyHealth: Health
 {
     private ColorChange ColorChange; // Reference to the ColorChange script
+    private GameObject enemyToRemove;
 
     [Header("SwordArmour")]
     public float swordMultiplier = 1; //sword damage multiplier
@@ -13,10 +14,13 @@ public class EnemyHealth: Health
     [Header("GunArmour")]
     public float gunMultipiler = 1;
 
+    public WaveManager waveManager;
+
     protected override void Awake()
     {
         base.Awake(); //invoke the parent(base) class's start first, then add the below stuff
         ColorChange = GetComponent<ColorChange>();
+        enemyToRemove = gameObject;
 
     }
 
@@ -29,6 +33,8 @@ public class EnemyHealth: Health
         if (currentHealth <= 0)
         {
             Die();
+            waveManager.currentEnemies.Remove(enemyToRemove);
+            Destroy(enemyToRemove);
         }
         else
         {

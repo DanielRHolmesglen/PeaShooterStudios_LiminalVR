@@ -17,13 +17,17 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 10.0f;
     public float attackCooldown = 2.0f;
 
+    float distanceToPlayer;
+    private Collider closestPlayerCollider;
+
+
     //bools to determine what enemy type, for attack calls
     public bool IsSoldier;
     public bool IsArtillery;
     public bool IsDrifter;
 
-    private Transform player;
-    private Collider playerCollider = EndGame.playerCollider;
+    //private Transform player;
+    private Collider[] playerColliders = EndGame.PlayerColliders;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -34,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
     {
         //get enemies navmesh refrence and players reference for position
         navMeshAgent = GetComponent<NavMeshAgent>();
-        player = EndGame.player;
+        //player = EndGame.player;
         //animator = GetComponent<Animator>();
 
         // Set the initial NavMeshAgent speed/attack range
@@ -43,12 +47,39 @@ public class EnemyMovement : MonoBehaviour
 
         InvokeRepeating("ChangeSpeed", 0f, speedChangeInterval);
 
+        /*
+        // Initially calculate the closest point on the NavMesh for each collider and choose the closest one
+        Vector3 closestPointOnNavMesh = FindClosestNavMeshPoint(playerCollider[2].transform.position);
+        float closestDistance = Vector3.Distance(transform.position, closestPointOnNavMesh);
+
+        for (int i = 1; i < playerCollider.Length; i++)
+        {
+            Vector3 pointOnNavMesh = FindClosestNavMeshPoint(playerCollider[i].transform.position);
+            float distancetoPlayer = Vector3.Distance(transform.position, pointOnNavMesh);
+
+            if (distancetoPlayer < closestDistance)
+            {
+                closestPointOnNavMesh = pointOnNavMesh;
+                closestDistance = distancetoPlayer;
+            }
+        }
+        
+
+        // Set the NavMeshAgent's destination to the closest point on the NavMesh
+        navMeshAgent.SetDestination(closestPointOnNavMesh);
+        */
+        StartCoroutine(CalculateDistanceToPlayer());
+        
+
+        /*
         // Initially, find the closest point on the NavMesh to the ship's collider, then we use that to find the best place on the navmesh to move the enemy towards
         Vector3 closestPointOnShipCollider = playerCollider.ClosestPoint(transform.position);
         Vector3 closestPointOnNavMesh = FindClosestNavMeshPoint(closestPointOnShipCollider);
 
         // Set the NavMeshAgent's destination to the closest point on the NavMesh
         navMeshAgent.SetDestination(closestPointOnNavMesh);
+        */
+
 
     }
 
@@ -60,7 +91,10 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        // Update attackTimer
+        attackTimer += Time.deltaTime;
 
+        /*
         // Calculate the distance between the enemy's position and the player's closest point on the collider
         float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.ClosestPoint(transform.position));
         //Debug.Log("Distance to player: " + distanceToPlayer); 
@@ -83,14 +117,12 @@ public class EnemyMovement : MonoBehaviour
             FindClosestNavMeshPoint(player.position);
             //Debug.Log("Enemy is not in attack range.");
         }
+        */
 
     }
     
     private void HandleAttack()
     {
-
-        // Update attackTimer
-        attackTimer += Time.deltaTime;
 
         //Get references to appropriate attacks
         EnemySoldier soldier = GetComponent<EnemySoldier>();
@@ -130,7 +162,6 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-
     // Helper function to set the NavMeshAgent's destination while making sure its actually hitting a point on a navmesh
     private Vector3 FindClosestNavMeshPoint(Vector3 position)
     {
@@ -145,8 +176,58 @@ public class EnemyMovement : MonoBehaviour
         return position;
     }
 
+    private IEnumerator CalculateDistanceToPlayer()
+    {
+        WaitForSeconds waitTime = new WaitForSeconds(1.0f); // Update every 1 second
+
+        while (true)
+        {
+            
+                // Find the closest point on the ship's collider(s) to the enemy's position
+                float closestDistance = float.MaxValue;
+
+                foreach (Collider targetCollider in playerColliders)
+                {
+                    float distance = Vector3.Distance(transform.position, targetCollider.ClosestPoint(transform.position));
+
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestPlayerCollider = targetCollider;
+
+
+                    }
+                }
+
+            float distanceToPlayer = closestDistance;
+
+
+                bool isInAttackRange = distanceToPlayer <= attackRange;
+
+                if (isInAttackRange)
+                {
+                    navMeshAgent.isStopped = true;
+                    HandleAttack();
+                }
+                else
+                {
+                    navMeshAgent.isStopped = false;
+                    navMeshAgent.SetDestination(closestPlayerCollider.transform.position);
+                }
+
+
+            yield return waitTime;
+        }
+
+    }
+
+
+
+
+
+
+
 
 }
 
 
- 
