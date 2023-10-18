@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Liminal.SDK.VR;
 using Liminal.SDK.VR.Input;
-
+//Does particle effect for gun 
 public class ButtonInputs : MonoBehaviour
 {
     [SerializeField] ParticleSystem particles;
-    [SerializeField] TrailRenderer trails;
+    //[SerializeField] TrailRenderer trails;
  
-    // Update is called once per frame
     void Update()
     {
         //get the primary input
@@ -18,12 +17,12 @@ public class ButtonInputs : MonoBehaviour
         if (primaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(0))
         {
             particles.Play();
-            trails.emitting = true;
+            //trails.emitting = true;
         }
         if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0))
         {
-            particles.Play();
-            trails.emitting = true;
+            particles.Pause();
+            //trails.emitting = false;
         }
     }
 }
