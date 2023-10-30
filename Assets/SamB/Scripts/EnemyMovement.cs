@@ -26,11 +26,12 @@ public class EnemyMovement : MonoBehaviour
     public bool IsArtillery;
     public bool IsDrifter;
 
-    //private Transform player;
+    //private Transform player, as the closest one is calculated for each enemy
     private Collider[] playerColliders = EndGame.PlayerColliders;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
+    private ScorpionFiniteStateMachine scorpianFSM;
 
     private float attackTimer = 0f; //clock that tracks attack cooldowns
 
@@ -38,6 +39,7 @@ public class EnemyMovement : MonoBehaviour
     {
         //get enemies navmesh refrence and players reference for position
         navMeshAgent = GetComponent<NavMeshAgent>();
+        scorpianFSM = GetComponent<ScorpionFiniteStateMachine>();
         //player = EndGame.player;
         //animator = GetComponent<Animator>();
 
@@ -145,6 +147,11 @@ public class EnemyMovement : MonoBehaviour
             {
                 soldier.Attack();
                 Debug.Log("Soldier attack called");
+
+                if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
+                {
+                    scorpianFSM.currentState = ScorpionFiniteStateMachine.States.ATTACKING;
+                }
             }
             else if (IsDrifter)
             {
