@@ -50,9 +50,9 @@ public class PewPewGunController : MonoBehaviour
         }
 
 
-        var primaryInput = VRDevice.Device.PrimaryInputDevice;
+        var secondaryInput = VRDevice.Device.SecondaryInputDevice;
     
-        if (!isOverheated && primaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(0)) //Checking if gun can fire when you initially press down
+        if (!isOverheated && secondaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(1)) //Checking if gun can fire when you initially press down
         {
             PewPew();
         }
@@ -67,8 +67,9 @@ public class PewPewGunController : MonoBehaviour
 
         // Fire sound
         audioSource.Play();
-
-        if (Physics.Raycast(gunBarrelEnd.position, gunBarrelEnd.forward, out RaycastHit hit))
+        
+        //check if raycast hits, and if the gun is overheated
+        if (Physics.Raycast(gunBarrelEnd.position, gunBarrelEnd.forward, out RaycastHit hit) && !isOverheated)
         {
             // Draw the laser line in the direction the gun was pointing.
             laserLine.enabled = true;
@@ -76,7 +77,7 @@ public class PewPewGunController : MonoBehaviour
             laserLine.SetPosition(1, hit.point);
 
             //get the directly hit enemy
-            EnemyHealth directEnemyHealth = hit.collider.GetComponent<EnemyHealth>();
+            EnemyHealth directEnemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
 
             //Do damage to the the directly hit enemy (if there is one)
             if (directEnemyHealth != null)

@@ -72,7 +72,7 @@ public class ScorpionFiniteStateMachine : MonoBehaviour
 
     }
 
-    public IEnumerator ATTACK()
+    public IEnumerator ATTACKING()
     {
         while(currentState == States.ATTACKING)
         {

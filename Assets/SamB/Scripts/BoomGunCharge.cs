@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GunCharge : MonoBehaviour
+public class PewGunCharge : MonoBehaviour
 {
     public AudioClip laserChargeSound;
     private AudioSource audioSource;
@@ -11,15 +11,16 @@ public class GunCharge : MonoBehaviour
     public Image bar; // Reference to the UI Image of bar
     public GameObject gunObject; //reference to the gun with the guncontroller script
 
-    public Color minChargeColor = new Color(0.6f, 0.25f, 0.2f); 
-    public Color maxChargeColor = new Color(0.2f, 0.6f, 0.55f); 
+    public Color minChargeColor = new Color(0.4f, 0.3f, 0.25f); 
+    public Color maxChargeColor = new Color(0.2f, 0.6f, 0.55f);
+
+    public BoomBoomGunController gunController;
+
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = laserChargeSound;
-
-        BoomBoomGunController gunController = gunObject.GetComponent<BoomBoomGunController>();
 
         // Make sure a reference to the Health component is provided
         if (gunController == null)
@@ -34,9 +35,7 @@ public class GunCharge : MonoBehaviour
 
     //could make this an event like health changing, but update is much easier for the moment
     private void Update()
-    {
-        BoomBoomGunController gunController = gunObject.GetComponent<BoomBoomGunController>();
-        
+    {        
 
             // Calculate the fill amount based on current charge time
             float fillAmount = gunController.chargeTimer / gunController.maxChargeTime;
@@ -51,14 +50,15 @@ public class GunCharge : MonoBehaviour
             bar.fillAmount = fillAmount;
 
 
-        if (gunController.isCharging)
+        if (gunController.isCharging && audioSource.isPlaying == false)
         {
             audioSource.Play();
         }
-        else
+        else if (gunController.isCharging == false)
         {
             audioSource.Stop();
         }
+
     }
 
 

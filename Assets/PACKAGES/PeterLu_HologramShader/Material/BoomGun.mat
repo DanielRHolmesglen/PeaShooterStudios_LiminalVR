@@ -68,7 +68,7 @@ Material:
     - _GlitchDensity: 5
     - _GlitchEffectPeriod: -1.25
     - _GlitchEffectStrength: 1
-    - _GlitchPeriod: 5.3
+    - _GlitchPeriod: 2.1
     - _GlitchStrength: 0.0074
     - _GlitchX: -0.14
     - _GlitchY: 40.53

@@ -103,7 +103,7 @@ public class BoomBoomGunController : MonoBehaviour
             Destroy(impactParticle.gameObject, impactParticle.main.duration);
 
             //get the directly hit enemy
-            EnemyHealth directEnemyHealth = hit.collider.GetComponent<EnemyHealth>();
+            EnemyHealth directEnemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
 
             //Do additional damage to the the directly hit enemy (if there is one)
             if (directEnemyHealth != null)
@@ -125,7 +125,7 @@ public class BoomBoomGunController : MonoBehaviour
                 float aoeDamage = Mathf.Lerp(DirectMaxDamage, DirectMinDamage, distance / explosionRadius);
 
                 // Apply damage to the enemy
-                EnemyHealth enemyHealth = hitCollider.GetComponent<EnemyHealth>();
+                EnemyHealth enemyHealth = hitCollider.GetComponentInParent<EnemyHealth>();
                 if (enemyHealth != null)
                 {
                     enemyHealth.Damage(aoeDamage, DamageType.Gun);
