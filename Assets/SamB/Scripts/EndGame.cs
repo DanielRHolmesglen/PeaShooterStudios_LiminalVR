@@ -47,7 +47,7 @@ public class EndGame : MonoBehaviour
             hologramText.text = "The ship has lost too much health. We need to repair and try again.";
             Debug.Log("Ship has been destroyed");
 
-            startingSequence.StartCoroutine(startingSequence.FadeOutBlack());
+            startingSequence.StartCoroutine(startingSequence.FadeToBlack());
 
             Invoke("ReloadScene", 2);
 
