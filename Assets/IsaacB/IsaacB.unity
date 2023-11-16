@@ -2581,6 +2581,75 @@ Transform:
   m_Father: {fileID: 197530529}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &743596663
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_Name
+      value: PeaShooterFinal
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.079094
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.31
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 56.17
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 3b03214e1976330478ec532156179ece,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b03214e1976330478ec532156179ece, type: 3}
 --- !u!1001 &754800286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9580,14 +9649,16 @@ MonoBehaviour:
   shipLanding: {fileID: 8300000, guid: 9f49099436114204595cb02b7cb36a75, type: 3}
   bugScreeching: {fileID: 8300000, guid: 70857a4bad8d14b49ad276d9c611a12b, type: 3}
   hologramText: {fileID: 1802377947}
-  gunText: {fileID: 1096777250}
-  swordText: {fileID: 1650658254}
-  planetModel: {fileID: 258557662}
+  boomGunText: {fileID: 0}
+  pewGunText: {fileID: 0}
+  AIModel: {fileID: 0}
   box: {fileID: 1463145064}
   bugModel: {fileID: 2041778255}
+  clumpedBugs: {fileID: 0}
+  singleBugs: {fileID: 0}
   shipModel: {fileID: 4819357704318434590}
-  gunModel: {fileID: 3842848038407763841}
-  swordModel: {fileID: 4236805563478420577}
+  pewGunModel: {fileID: 0}
+  boomGunModel: {fileID: 0}
   blackScreenImage: {fileID: 1892643622}
   tutorialOn: 0
   skipKey: 32
@@ -10475,7 +10546,7 @@ Transform:
   m_Children:
   - {fileID: 1778326929}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1644259303
 GameObject:
@@ -11891,11 +11962,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e15657fb81052438a8efff4c248403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserChargeSound: {fileID: 8300000, guid: 2ce0c987f044d984cbfb30a5161557e4, type: 3}
   bar: {fileID: 1563938406}
   gunObject: {fileID: 402465196}
   minChargeColor: {r: 0.501958, g: 0.754717, b: 0.7522674, a: 0.20784314}
   maxChargeColor: {r: 0.2, g: 0.6, b: 0.55, a: 1}
+  gunController: {fileID: 0}
 --- !u!82 &1798696110
 AudioSource:
   m_ObjectHideFlags: 0
