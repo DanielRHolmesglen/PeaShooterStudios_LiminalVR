@@ -11,15 +11,17 @@ public class StartingSequence: MonoBehaviour
     public AudioClip bugScreeching;
 
     public Text hologramText;
-    public Text gunText;
-    public Text swordText;
+    public Text boomGunText;
+    public Text pewGunText;
 
-    public GameObject planetModel;
+    public GameObject AIModel;
     public GameObject box;
     public GameObject bugModel;
+    public GameObject clumpedBugs;
+    public GameObject singleBugs;
     public GameObject shipModel;
-    public GameObject gunModel;
-    public GameObject swordModel;
+    public GameObject pewGunModel;
+    public GameObject boomGunModel;
 
     public Image blackScreenImage;
 
@@ -62,35 +64,23 @@ public class StartingSequence: MonoBehaviour
         yield return new WaitForSeconds(4.5f);
 
         // Show Ai with initial intro/backrgound
-        planetModel.SetActive(true);
+        AIModel.SetActive(true);
         hologramText.gameObject.SetActive(true);
         hologramText.text = "Initialising...";
         yield return new WaitForSeconds(2.0f);
-        hologramText.text = "Glad to see you're awake, and more importantly, unharmed.";
+        hologramText.text = "Glad to see you're awake, but looks like you need a refresher.";
         yield return new WaitForSeconds(4.0f);
-        hologramText.text = "Something hit us as we were trying to land, we had a very rocky landing.";
+        hologramText.text = "Well good news is that we found the AI that was broadcasting the frequency.";
         yield return new WaitForSeconds(4.0f);
-        hologramText.gameObject.SetActive(false);
-        planetModel.SetActive(false);
 
         //Show ship
         shipModel.SetActive(true);
         hologramText.gameObject.SetActive(true);
-        hologramText.text = "Behind you is our ship, we must defend it until this planets AI can upload itself on board.";
+        hologramText.text = "Bad news is the bugs are not very happy we're here.";
+        yield return new WaitForSeconds(5.0f);
+        hologramText.text = "We must defend the generators until this colonies AI can upload itself onboard our ship, then we can get the hell out of here.";
         yield return new WaitForSeconds(6.0f);
         shipModel.SetActive(false);
-
-        // Showing and hiding gun/sword to show what they do and theyr keybinds
-        hologramText.text = "These are your currently equipped weapons. You will need to use them to keep the bugs off our ship.";
-        gunModel.SetActive(true);
-        gunText.gameObject.SetActive(true);
-        swordText.gameObject.SetActive(true);
-        swordModel.SetActive(true);
-        yield return new WaitForSeconds(8.0f);
-        swordModel.SetActive(false);
-        gunModel.SetActive(false);
-        gunText.gameObject.SetActive(false);
-        swordText.gameObject.SetActive(false);
 
 
         bugModel.SetActive(true);
@@ -98,19 +88,47 @@ public class StartingSequence: MonoBehaviour
         yield return new WaitForSeconds(6.0f);
         bugModel.SetActive(false);
 
+        // Showing and hiding guns. Showing what they do and theyr keybinds
+        hologramText.text = "These are your currently equipped weapons. You will need to use them to keep the bugs off our ship. Try them out on these initial bugs!";
+        boomGunModel.SetActive(true);
+        pewGunText.gameObject.SetActive(true);
+        boomGunText.gameObject.SetActive(true);
+        pewGunModel.SetActive(true);
+        yield return new WaitForSeconds(8.0f);
+        boomGunModel.SetActive(false);
+        pewGunModel.SetActive(false);
+        pewGunText.gameObject.SetActive(false);
+        boomGunText.gameObject.SetActive(false);
+
+        //showing and hiding bugs to show how to shoot guns 
+        clumpedBugs.SetActive(true);
+        hologramText.text = "Hold down your right button to charge your cannon. Release it to cause a big explosion and hit those clumped bugs.";
+        yield return new WaitForSeconds(5.0f);
+        clumpedBugs.SetActive(false);
+        singleBugs.SetActive(true);
+        hologramText.text = "Now press your left button to fire your pistol. Use it to shoot each of those far apart bugs.";
+        yield return new WaitForSeconds(5.0f);
+        singleBugs.SetActive(false);
+
+        
+
 
         //make screen black as screeches play
         hologramText.text = "Here they come! Time for you to slay some bugs.";
         audioSource.PlayOneShot(bugScreeching);
 
-        fadeDuration = 3f;
-        StartCoroutine(FadeOutBlack());
-        yield return new WaitForSeconds(3.0f);
+        fadeDuration = 4f;
+        StartCoroutine(FadeToBlack());
+        yield return new WaitForSeconds(4.0f);
+        hologramText.gameObject.SetActive(false);
+
 
         hologramText.gameObject.SetActive(false);
-        fadeDuration = 2;
+        fadeDuration = 3;
         StartCoroutine(FadeIn());
         box.SetActive(false);
+        AIModel.SetActive(false);
+
 
         //start wave spawning as the game now 'starts' and tutorial ends
         tutorialOn = false;
@@ -121,7 +139,7 @@ public class StartingSequence: MonoBehaviour
 
     public IEnumerator FadeIn()
     {
-        // Set the initial alpha of the black screen to 0
+        // Set the initial alpha of the black screen to 0% (AKA black)
         Color startColor = blackScreenImage.color;
         startColor.a = 0;
         blackScreenImage.color = startColor;
@@ -139,9 +157,9 @@ public class StartingSequence: MonoBehaviour
         }
     }
 
-    public IEnumerator FadeOutBlack()
+    public IEnumerator FadeToBlack()
     {
-        // Set the initial alpha of the black screen to 100
+        // Set the initial alpha of the black screen to 100% (AKA see through)
         Color startColor = blackScreenImage.color;
         startColor.a = 100;
         blackScreenImage.color = startColor;
@@ -163,16 +181,16 @@ public class StartingSequence: MonoBehaviour
     {
         //make sure everything is actually off (as you end the coroutine early).
         hologramText.gameObject.SetActive(false);
-        planetModel.SetActive(false);
-        swordModel.SetActive(false);
-        gunModel.SetActive(false);
-        gunText.gameObject.SetActive(false);
-        swordText.gameObject.SetActive(false);
+        AIModel.SetActive(false);
+        pewGunModel.SetActive(false);
+        boomGunModel.SetActive(false);
+        pewGunText.gameObject.SetActive(false);
+        boomGunText.gameObject.SetActive(false);
         shipModel.SetActive(false);
         bugModel.SetActive(false);
-        //make sure screen is not 'fading in' still
+        //make sure screen is not 'fading in' still (setting alpha to 100% so it's see through)
         Color startColor = blackScreenImage.color;
-        startColor.a = 0;
+        startColor.a = 100;
 
 
 
