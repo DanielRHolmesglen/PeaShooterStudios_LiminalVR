@@ -1525,8 +1525,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92931c70e2c39514a886c8fae4393967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 6
-  maxSpeed: 8
+  minSpeed: 8
+  maxSpeed: 12
   speedChangeInterval: 2
   moveSpeed: 3.59
   attackRange: 2.5
@@ -1574,7 +1574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4783ad9cda218b24b90ce79a61d56144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
+  maxHealth: 150
   currentHealth: 0
   swordMultiplier: 1
   gunMultipiler: 1

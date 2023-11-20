@@ -4,21 +4,32 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EndGame : MonoBehaviour
+/// <summary>
+/// Is in charge of managing the ship the player is defending, and 'resetting' or 'ending the game' with defeat if its destroyed.
+/// </summary>
+
+public class ShipManager : MonoBehaviour
 {
     //static references for other scripts to use
-    public static Transform player; //Where the player is.
-    public static Vector3 playerPosition; // player's Vector3 position+
-    public static PlayerHealth playerHealth; // reference to player's health for all scripts to easily use 
+    public static Transform player; //Where the SHIP is.
+    public static Vector3 playerPosition; // ships's Vector3 position+
+    public static PlayerHealth playerHealth; // reference to ships's health for all scripts to easily use 
 
-    public static Collider[] PlayerColliders; //static reference for player colliders, mainly for enemyMovement and projectiles
+    public static Collider[] PlayerColliders; //static reference for ship generator colliders, mainly for enemyMovement and projectiles
     public Collider[] setPlayerColliders; //assign them in inspector
 
     public static GameObject playerObject; //used for enemymovement
 
-    public StartingSequence startingSequence;
-
+    public StartingSequence startingSequence; 
     public Text hologramText;
+
+
+    public float resetDelay = 3f; // Delay before resetting the game
+    public Image fadeImage;
+    public Text lossText;
+    public AudioSource lossSound;
+
+    public WaveManager waveManager;
 
 
 
@@ -49,7 +60,13 @@ public class EndGame : MonoBehaviour
 
             startingSequence.StartCoroutine(startingSequence.FadeToBlack());
 
-            Invoke("ReloadScene", 2);
+            Invoke("ReloadScene", 5);
+
+            // Play loss sound
+            lossSound.Play();
+
+            // Reset the game
+            ResetGame();
 
         }
     }
@@ -67,7 +84,29 @@ public class EndGame : MonoBehaviour
     public void ReloadScene()
     {
         hologramText.gameObject.SetActive(false);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
 
     }
+    
+    private void ResetGame()
+    {
+        playerHealth.currentHealth = 200;
+
+        //waveManager.currentWave =  
+        // Reset defendedObject's health
+        // ...
+
+        //foreach gameobject in WaemManager.enemies
+        // Remove active enemies
+        // ...
+
+        // Reset any other game state
+        // ...
+
+        // Restart the game or transition to a menu, etc.
+        // ...
+    }
+
+
+
 }

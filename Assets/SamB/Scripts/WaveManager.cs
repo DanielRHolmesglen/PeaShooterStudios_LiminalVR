@@ -11,15 +11,16 @@ public class WaveManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     public GameObject[] spawnPoints;
-    public int totalWaves = 5;
-    public int enemiesPerWave = 10; //increases by 2 each wave.
-    public float timeBetweenSpawns = 2.0f;
-    public float timeBetweenWaves = 5.0f;
+    public int totalWaves = 10;
+    public int enemiesPerWave = 15; //also increases by 4 each wave.
+    public float timeBetweenSpawns = 1.0f;
+    public float timeBetweenWaves = 15.0f;
 
-    public List<GameObject> currentEnemies /*saying the list exists*/ = new List<GameObject>(); //actually creating the list
+    public List<GameObject> currentEnemies = new List<GameObject>(); 
     public Text currentWaveText;
     public Text enemiesLeftText;
 
+    public int previousWave = 0;
     public int currentWave = 0;
 
 
@@ -43,7 +44,7 @@ public class WaveManager : MonoBehaviour
     //spawn waves, with set wait times between each spawn/wave
     public IEnumerator SpawnWaves()
     {
-        yield return new WaitForSeconds(2.0f); // Wait for 2 seconds before starting cause its nice
+        yield return new WaitForSeconds(2.0f);
         int wave = 0;
 
         
@@ -51,10 +52,10 @@ public class WaveManager : MonoBehaviour
             {
                 currentWave++; //for UI
                 currentWaveText.text = currentWave + "/5"; //updating UI
-                enemiesPerWave = enemiesPerWave + 2; //increasing amount of enemies each wave by 2
+                enemiesPerWave = enemiesPerWave + 4; //increasing amount of enemies each wave by 2
                 Debug.LogWarning("wave" + wave);
-
-
+                
+                
                 for (int enemyIndex = 0; enemyIndex < enemiesPerWave; enemyIndex++) //going through and spawning enemies until index is full
                 {
                     SpawnRandomEnemy();
@@ -103,7 +104,6 @@ public class WaveManager : MonoBehaviour
         currentEnemies.Add(newEnemy); //adding enemy to list for UI
 
         enemiesLeftText.text = currentEnemies.Count.ToString(); //updating  with how many enemies are now in the enemy array
-        //navMeshSurface.BuildNavMesh(); //Can't be done during runtime/isnt needed. Dunno why it was suggested.
 
     }
 

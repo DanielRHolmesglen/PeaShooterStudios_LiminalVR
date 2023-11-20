@@ -11,26 +11,34 @@ using System;
 public class BoomBoomGunController : MonoBehaviour 
 {
 
-    public float minChargeTime = 0.5f;
-    public float maxChargeTime = 1.5f;
-    public float DirectMinDamage = 5f;
-    public float DirectMaxDamage = 25f;
+    //public float minChargeTime = 0.5f;
+    //public float maxChargeTime = 1.5f;
+    //public float DirectMinDamage = 5f;
+    //public float DirectMaxDamage = 25f;
     public float maxRange = 20f; //how far line renderer is drawn if nothing is hit 
 
     public float explosionRadius = 5f; // The radius of the explosion
     public float explosionMinDamage = 5f; // Minimum damage to apply within the explosion radius
     public float explosionMaxDamage = 25f; // Maximum damage to apply at the center of the explosion
 
-    public float chargeTimer;
-    public bool isCharging;
+    public bool isCoolingDown;
+    public float cooldown = 2f;
+    public float fireDelay = 0.25f;
+    
+    //public float chargeTimer;
+    //public bool isCharging;
 
     public AudioClip laserFireSound;
     private AudioSource audioSource;
 
     private LineRenderer laserLine; //reference to line renderer for laser
     public ParticleSystem chargingParticles; // Reference to charging particle effect
+    //public ParticleSystem fireParticles;
     public Transform gunBarrelEnd;
     public ParticleSystem laserImpactParticle;
+
+
+    public float directDamage = 25f;
 
 
 
@@ -50,13 +58,22 @@ public class BoomBoomGunController : MonoBehaviour
     {
         var primaryInput = VRDevice.Device.PrimaryInputDevice;
 
-        if (primaryInput.GetButton(VRButton.One) || Input.GetMouseButton(0))    //start charging gun when you press down
+        if (primaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(0) && (!isCoolingDown))    //only checking the frame it's clicked as it shouldnt be "full auto"
         {
-            //turn the bool on 
-            isCharging = true;
             chargingParticles.Play();
+
+            Invoke("FireGun", fireDelay);
+
+            Invoke("TurnOffParticles", fireDelay);
+
+            StartCoroutine(GunCooldown());
+
+            //turn the bool on 
+            //isCharging = true;
+
         }
 
+        /* OLD CHARGING STUFF
         if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0)) //when mouse button released, fire laser
         {
             if (chargeTimer >= minChargeTime) //fire laser if the minimum charge time was reached
@@ -82,13 +99,15 @@ public class BoomBoomGunController : MonoBehaviour
             //increase charge timer
             chargeTimer += Time.deltaTime;
         }
+        */
     }
 
 
-    private void BoomBoom(float chargeTime)
+
+    private void FireGun()
     {
         //reset charge timer
-        chargeTimer = 0f;
+        //chargeTimer = 0f;
 
         //checking what it hits/if it hits something 
         if (Physics.Raycast(gunBarrelEnd.position, gunBarrelEnd.forward, out RaycastHit hit))
@@ -108,11 +127,9 @@ public class BoomBoomGunController : MonoBehaviour
             //Do additional damage to the the directly hit enemy (if there is one)
             if (directEnemyHealth != null)
             {
-                float directDamage = Mathf.Lerp(DirectMinDamage, DirectMaxDamage, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
+                //float directDamage = Mathf.Lerp(DirectMinDamage, DirectMaxDamage, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
                 directEnemyHealth.Damage(directDamage, DamageType.Gun);
             }
-                
-
 
             // Create an array of hit enemies, and make that array be all of the hit enemies
             Collider[] enemyColliders = Physics.OverlapSphere(hit.point, explosionRadius);
@@ -122,7 +139,7 @@ public class BoomBoomGunController : MonoBehaviour
             {
                 // Calculate the damage based on the distance from the center of the explosion. Closer to center is bigger damage.
                 float distance = Vector3.Distance(hit.point, hitCollider.transform.position);
-                float aoeDamage = Mathf.Lerp(DirectMaxDamage, DirectMinDamage, distance / explosionRadius);
+                float aoeDamage = Mathf.Lerp(explosionMinDamage, explosionMaxDamage, distance / explosionRadius);
 
                 // Apply damage to the enemy
                 EnemyHealth enemyHealth = hitCollider.GetComponentInParent<EnemyHealth>();
@@ -198,5 +215,17 @@ public class BoomBoomGunController : MonoBehaviour
         laserLine.enabled = false;
     }
 
+    private void TurnOffParticles()
+    {
+        chargingParticles.Stop();
+
+    }
+
+    private IEnumerator GunCooldown()
+    {
+        isCoolingDown = true;
+        yield return new WaitForSeconds(cooldown);
+        isCoolingDown = false;
+    }
 
 }

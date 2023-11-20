@@ -5,15 +5,16 @@ using UnityEngine.EventSystems;
 using Liminal.SDK.VR;
 using Liminal.SDK.VR.Input;
 using System;
-
+/// <summary>
+/// Controls the left hand "rapid fire" gun
+/// </summary>
 public class PewPewGunController : MonoBehaviour
 {
     public float directDamage = 10f;                // Damage per shot
-    public float cooldown = 0.2f;            // Time between shots
-    public float heatPerShot = 10f;           // Amount of heat generated per shot
-    public float overheatThreshold = 100f;   // Overheat threshold
-    public float heatCooldownRate = 20f;     // Rate at which the gun cools down when overheated
-    public float heatCooldownRateNormal = 5f; // Rate at which the gun cools down when not overheated
+    public float heatPerShot = 1f;           // Amount of heat generated per shot
+    public float overheatThreshold = 50f;   // Overheat threshold
+    public float ventHeatRate = 20f;     // Rate at which the gun cools down when overheated
+    public float normalVentHeatRate = 0.5f; // Rate at which the gun cools down when not overheated
     public float maxRange; //how far the laser is rednered if nothing is hit 
     public float currentHeat = 0f;  // Current heat level
 
@@ -23,6 +24,8 @@ public class PewPewGunController : MonoBehaviour
     public LineRenderer laserLine;
     public Transform gunBarrelEnd;
 
+    public bool isCoolingDown;
+    public float cooldown = 0.15f; //time between shots
 
     private void Start()
     {
@@ -34,11 +37,11 @@ public class PewPewGunController : MonoBehaviour
     {
         if (isOverheated)             // If the gun is overheated, start cooling down
         {
-            currentHeat -= heatCooldownRate * Time.deltaTime;
+            currentHeat -= ventHeatRate * Time.deltaTime;
         }
         else
         {
-            currentHeat -= heatCooldownRateNormal * Time.deltaTime;
+            currentHeat -= normalVentHeatRate * Time.deltaTime;
         }
 
         currentHeat = Mathf.Clamp(currentHeat, 0f, overheatThreshold);
@@ -52,7 +55,7 @@ public class PewPewGunController : MonoBehaviour
 
         var secondaryInput = VRDevice.Device.SecondaryInputDevice;
     
-        if (!isOverheated && secondaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(1)) //Checking if gun can fire when you initially press down
+        if (!isOverheated && (!isCoolingDown) && secondaryInput.GetButton(VRButton.One) || Input.GetMouseButton(1)) //Checking every frame if button is being pressed, for "full auto"
         {
             PewPew();
         }
@@ -102,21 +105,28 @@ public class PewPewGunController : MonoBehaviour
         if (currentHeat + heatPerShot >= overheatThreshold)
         {
             isOverheated = true;
-            StartCoroutine(CoolDown());
+            StartCoroutine(VentHeat());
         }
 
         //Turn everything off
         Invoke("TurnOffLaser", 0.3f);
     }
 
-    private IEnumerator CoolDown()
+    private IEnumerator VentHeat()
     {
         while (currentHeat > 0)
         {
             yield return new WaitForSeconds(1.0f);
-            currentHeat -= heatCooldownRate;
+            currentHeat -= ventHeatRate;
         }
 
+    }
+
+    private IEnumerator GunCooldown()
+    {
+        isCoolingDown = true;
+        yield return new WaitForSeconds(cooldown);
+        isCoolingDown = false;
     }
 
     private void TurnOffLaser()

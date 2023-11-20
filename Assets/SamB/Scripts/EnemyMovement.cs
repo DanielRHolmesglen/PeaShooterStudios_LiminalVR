@@ -27,7 +27,7 @@ public class EnemyMovement : MonoBehaviour
     public bool IsDrifter;
 
     //private Transform player, as the closest one is calculated for each enemy
-    private Collider[] playerColliders = EndGame.PlayerColliders;
+    private Collider[] playerColliders = ShipManager.PlayerColliders;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -40,7 +40,7 @@ public class EnemyMovement : MonoBehaviour
         //get enemies navmesh refrence and players reference for position
         navMeshAgent = GetComponent<NavMeshAgent>();
         scorpianFSM = GetComponent<ScorpionFiniteStateMachine>();
-        //player = EndGame.player;
+        //player = ShipManager.player;
         //animator = GetComponent<Animator>();
 
         // Set the initial NavMeshAgent speed/attack range
