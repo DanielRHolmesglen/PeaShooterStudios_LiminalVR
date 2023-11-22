@@ -11,7 +11,7 @@ ModelImporter:
     second: ATTACK
   - first:
       74: 4348485665485846014
-    second: Death
+    second: DEATH
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -99,7 +99,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Death
+      name: DEATH
       takeName: Take 001
       internalID: 4348485665485846014
       firstFrame: 81
