@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// Responsible for the initial "turotial starting sequence" of the game, and for starting the initial waves
+/// </summary>
 
 public class StartingSequence: MonoBehaviour
 {

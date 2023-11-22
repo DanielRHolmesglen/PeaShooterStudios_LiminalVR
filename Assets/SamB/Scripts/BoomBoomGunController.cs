@@ -58,7 +58,7 @@ public class BoomBoomGunController : MonoBehaviour
     {
         var primaryInput = VRDevice.Device.PrimaryInputDevice;
 
-        if (primaryInput.GetButtonDown(VRButton.One) || Input.GetMouseButtonDown(0) && (!isCoolingDown))    //only checking the frame it's clicked as it shouldnt be "full auto"
+        if (primaryInput.GetButtonDown(VRButton.One) && (!isCoolingDown) || Input.GetMouseButtonDown(0) && (!isCoolingDown))    //only checking the frame it's clicked as it shouldnt be "full auto"
         {
             chargingParticles.Play();
 
@@ -67,39 +67,10 @@ public class BoomBoomGunController : MonoBehaviour
             Invoke("TurnOffParticles", fireDelay);
 
             StartCoroutine(GunCooldown());
-
-            //turn the bool on 
-            //isCharging = true;
+            
 
         }
-
-        /* OLD CHARGING STUFF
-        if (primaryInput.GetButtonUp(VRButton.One) || Input.GetMouseButtonUp(0)) //when mouse button released, fire laser
-        {
-            if (chargeTimer >= minChargeTime) //fire laser if the minimum charge time was reached
-            {
-                isCharging = false;
-                BoomBoom(chargeTimer);
-                chargingParticles.Stop();
-            }
-
-            else //do not fire laser if minimum charge time wasnt reached
-            {
-                isCharging = false;
-                chargeTimer = 0f;
-                chargingParticles.Stop();
-            }
-        }
-
-        if (isCharging)
-        {
-            //playing charge effect
-            chargingParticles.Play();
-
-            //increase charge timer
-            chargeTimer += Time.deltaTime;
-        }
-        */
+        
     }
 
 
@@ -169,46 +140,9 @@ public class BoomBoomGunController : MonoBehaviour
             laserLine.SetPosition(1, targetPosition);
             Invoke("TurnOffLaser", 0.3f);
         }
-
-        /*
-        //if the raycast is hitting something 
-        if (Physics.Raycast(gunBarrelEnd.position, gunBarrelEnd.forward, out RaycastHit hit))
-        {
-            //play laser fire sound
-            audioSource.Play();
-
-            // Draw the laser (enable Line Renderer and set positions)
-            laserLine.enabled = true;
-            laserLine.SetPosition(0, gunBarrelEnd.position);
-            laserLine.SetPosition(1, hit.point);
-            Invoke("TurnOffLaser", 0.3f);
-
-            //Get reference to enemy health of the hit thing
-            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-
-            if (enemyHealth != null)  //If we got a reference to enemy health
-
-            {
-                float damage = Mathf.Lerp(minDamage, maxDamage, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
-
-
-                enemyHealth.Damage(damage, DamageType.Gun);
-            }
-        }
-
-        else //if the gun does not hit anything
-        {
-            Vector3 targetPosition = gunBarrelEnd.position + gunBarrelEnd.forward * maxRange;
-
-            // Enable the laser (Line Renderer) and set its positions
-            laserLine.enabled = true;
-            laserLine.SetPosition(0, gunBarrelEnd.position);
-            laserLine.SetPosition(1, targetPosition);
-            Invoke("TurnOffLaser", 0.3f);
-        }
-        */
+        
     }
-    
+
 
     private void TurnOffLaser()
     {

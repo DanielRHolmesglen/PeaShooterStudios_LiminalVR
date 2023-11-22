@@ -79,21 +79,11 @@ public class ScorpionFiniteStateMachine : MonoBehaviour
             anim.Play("Attack");
             //damageTaken.Attack();
 
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
         }
     }
     #endregion
-
-    private void OnDrawGizmosSelected()
-    {
-        /*
-        Gizmos.color = sightColor;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, meleeRange);
-        */
-    }
+    
 
     void Update()
     {

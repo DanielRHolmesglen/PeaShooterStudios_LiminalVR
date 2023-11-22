@@ -1012,6 +1012,7 @@ MonoBehaviour:
   IsSoldier: 1
   IsArtillery: 0
   IsDrifter: 0
+  IsExploder: 0
 --- !u!114 &4703612003319346115
 MonoBehaviour:
   m_ObjectHideFlags: 0

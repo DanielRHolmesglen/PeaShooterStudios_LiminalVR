@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// UNUSED: controls the 'filling up' of the right hand gun "charge up" bar on the canvas
 /// </summary>
-public class PewGunCharge : MonoBehaviour
+public class BoomGunCharge : MonoBehaviour
 {
     public AudioClip laserChargeSound;
     private AudioSource audioSource;

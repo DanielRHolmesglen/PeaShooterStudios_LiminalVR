@@ -24,7 +24,7 @@ public class PewPewGunController : MonoBehaviour
     public LineRenderer laserLine;
     public Transform gunBarrelEnd;
 
-    public bool isCoolingDown;
+    public bool isCoolingDown = false;
     public float cooldown = 0.15f; //time between shots
 
     private void Start()
@@ -53,11 +53,14 @@ public class PewPewGunController : MonoBehaviour
         }
 
 
-        var secondaryInput = VRDevice.Device.SecondaryInputDevice;
+        var secondaryInput = VRDevice.Device.PrimaryInputDevice; //CHANGE THIS WHEN TESTING IN UNITY
     
-        if (!isOverheated && (!isCoolingDown) && secondaryInput.GetButton(VRButton.One) || Input.GetMouseButton(1)) //Checking every frame if button is being pressed, for "full auto"
+        if (secondaryInput.GetButton(VRButton.One) && (!isOverheated) && (!isCoolingDown) || Input.GetMouseButton(0) && (!isOverheated) && (!isCoolingDown)) //Checking every frame if button is being pressed, for "full auto"
         {
             PewPew();
+
+            StartCoroutine(GunCooldown());
+
         }
 
     }
@@ -96,9 +99,7 @@ public class PewPewGunController : MonoBehaviour
             laserLine.enabled = true;
             laserLine.SetPosition(0, gunBarrelEnd.position);
             laserLine.SetPosition(1, gunBarrelEnd.position + gunBarrelEnd.forward * maxRange);
-
             
-
         }
 
         //Overheat gun (AKA isOverheated = true) if this shot pushed over threshold

@@ -48,14 +48,13 @@ public class Health : MonoBehaviour
     // Remove from scene
     public virtual void Die()
     {
-        Invoke("Destroy", (1/2));
+        Invoke("Destroy", (0.75f));
     }
 
     //destroy gameobject
-    private void Destroy()
+    public void Destroy()
     {
         Destroy(gameObject);
-
     }
 
     protected void RaiseOnHealthChanged(float currentHealth, float maxHealth)

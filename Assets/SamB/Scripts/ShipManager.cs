@@ -90,9 +90,10 @@ public class ShipManager : MonoBehaviour
     
     private void ResetGame()
     {
-        playerHealth.currentHealth = 200;
+        //playerHealth.currentHealth = 200;
 
-        //waveManager.currentWave =  
+
+        //waveManager.currentWave = waveManager.previousWave;
         // Reset defendedObject's health
         // ...
 

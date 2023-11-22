@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoomGunCharge : MonoBehaviour
+public class PewGunOverheat : MonoBehaviour
 {
 
     public Image bar; // Reference to the UI Image of bar

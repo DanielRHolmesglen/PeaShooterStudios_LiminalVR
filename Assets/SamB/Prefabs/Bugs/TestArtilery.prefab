@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 2056685698154801129}
   - component: {fileID: 614792809015543601}
   m_Layer: 0
-  m_Name: ArtileryBug
+  m_Name: TestArtilery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,6 +228,7 @@ MonoBehaviour:
   currentHealth: 0
   swordMultiplier: 1
   gunMultipiler: 1
+  waveManager: {fileID: 0}
 --- !u!114 &6793982857793581692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +250,7 @@ MonoBehaviour:
   IsSoldier: 0
   IsArtillery: 1
   IsDrifter: 0
+  IsExploder: 0
 --- !u!114 &6793982857793581682
 MonoBehaviour:
   m_ObjectHideFlags: 0

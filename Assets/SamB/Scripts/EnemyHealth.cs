@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class EnemyHealth: Health
 {
+    //bools to determine what enemy type, for attack calls
+    public bool isSoldier;
+    public bool isArtillery;
+    public bool isDrifter;
+    public bool isExploder;
+
+    Animator anim; 
+
     private ColorChange ColorChange; // Reference to the ColorChange script
-    private GameObject enemyToRemove;
 
     [Header("SwordArmour")]
     public float swordMultiplier = 1; //sword damage multiplier
@@ -14,13 +21,13 @@ public class EnemyHealth: Health
     [Header("GunArmour")]
     public float gunMultipiler = 1;
 
-    public WaveManager waveManager;
-
     protected override void Awake()
     {
         base.Awake(); //invoke the parent(base) class's start first, then add the below stuff
         ColorChange = GetComponent<ColorChange>();
-        enemyToRemove = gameObject;
+
+        anim = GetComponent<Animator>();
+
 
     }
 
@@ -28,13 +35,13 @@ public class EnemyHealth: Health
     //we are not calling base as dont want to do damage twice, we are just overriding it with the gun/sword multiplier
     public override void Damage(float amount, DamageType type)
     {
-        
+
+
 
         if (currentHealth <= 0)
         {
+            WaveManager.currentEnemies.Remove(gameObject);
             Die();
-            waveManager.currentEnemies.Remove(enemyToRemove);
-            Destroy(enemyToRemove);
         }
         else
         {
@@ -48,7 +55,15 @@ public class EnemyHealth: Health
                     
                     if (currentHealth <= 0)
                     {
+                        if (isArtillery) anim.Play("Death");
+
+                        if (isSoldier) anim.Play("Death");
+                        if (isExploder) anim.Play("Death");
+
+                        if (isDrifter) anim.Play("DEATH");
+
                         Die();
+
                     }
                     break;
                      

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
-/// Responsible for moving enemy bugs towards the player. Moves bugs towards players in a "zigzag" or a "curvy line", but haven't been able to figure that out 
-/// yet. Also responsible for calling attack functions when the enemy is cloe enough to the player, to save update checks on multiple other scripts.
+/// Responsible for moving enemy bugs towards the Ship. Also responsible for calling attack functions and make the bug stop moving when the bug is close enough to the ship, to save update checks on multiple other scripts.
 /// </summary>
 public class EnemyMovement : MonoBehaviour
 {
@@ -16,24 +15,31 @@ public class EnemyMovement : MonoBehaviour
     public float moveSpeed; // stores move speed
     public float attackRange = 10.0f;
     public float attackCooldown = 2.0f;
+    private float attackTimer = 0f; //clock that tracks attack cooldowns
 
     float distanceToPlayer;
     private Collider closestPlayerCollider;
 
-
     //bools to determine what enemy type, for attack calls
-    public bool IsSoldier;
-    public bool IsArtillery;
-    public bool IsDrifter;
+    public bool isSoldier;
+    public bool isArtillery;
+    public bool isDrifter;
+    public bool isExploder;
+
+
 
     //private Transform player, as the closest one is calculated for each enemy
     private Collider[] playerColliders = ShipManager.PlayerColliders;
 
-    private Animator animator;
     private NavMeshAgent navMeshAgent;
-    private ScorpionFiniteStateMachine scorpianFSM;
 
-    private float attackTimer = 0f; //clock that tracks attack cooldowns
+    private Animator anim;
+    private ScorpionFiniteStateMachine scorpianFSM;
+    //private DrifterFiniteStateMachine drifterFSM;
+
+
+
+
 
     private void Start()
     {
@@ -41,7 +47,7 @@ public class EnemyMovement : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         scorpianFSM = GetComponent<ScorpionFiniteStateMachine>();
         //player = ShipManager.player;
-        //animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
 
         // Set the initial NavMeshAgent speed/attack range
         navMeshAgent.speed = moveSpeed;
@@ -121,79 +127,33 @@ public class EnemyMovement : MonoBehaviour
         }
         */
 
+
+
+        if(!isInAttackRange)
+        {
+            if (isArtillery) anim.Play("WalkLoop");
+
+            if (isSoldier) anim.Play("WalkLoop");
+            if (isExploder) anim.Play("WalkLoop");
+
+            if (isDrifter) anim.Play("IDLE");
+        }
+
+
     }
     
-    private void HandleAttack()
-    {
-
-        //Get references to appropriate attacks
-        EnemySoldier soldier = GetComponent<EnemySoldier>();
-        EnemyArtillery artillery = GetComponent<EnemyArtillery>();
-        EnemyDrifter drifter = GetComponent<EnemyDrifter>();
-
-        //if timer is at respect attack cooldown time, then execute attack and reset timer
-        if (attackTimer >= attackCooldown)
-        {
-            // Reset the timer
-            attackTimer = 0f;
-
-            // Call the appropriate attack based on enemy type
-            if (IsArtillery)
-            {
-                artillery.Attack();
-                Debug.Log("Artillery attack called");
-            }
-            else if (IsSoldier)
-            {
-                soldier.Attack();
-                Debug.Log("Soldier attack called");
-
-                if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
-                {
-                    scorpianFSM.currentState = ScorpionFiniteStateMachine.States.ATTACKING;
-                }
-            }
-            else if (IsDrifter)
-            {
-                drifter.Attack();
-                Debug.Log("Drifter attack called");
-            }
-            else
-            {
-                Debug.Log("No  enemy type found");
-                return;
-            }
-           
-            // Add more conditions for other enemy types
-        }
-
-    }
-
-    // Helper function to set the NavMeshAgent's destination while making sure its actually hitting a point on a navmesh
-    private Vector3 FindClosestNavMeshPoint(Vector3 position)
-    {
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(position, out hit, Mathf.Infinity, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-
-        // If no valid NavMesh point is found, return the original position
-        Debug.Log("No valid navmesh point found");
-        return position;
-    }
-
     private IEnumerator CalculateDistanceToPlayer()
     {
         WaitForSeconds waitTime = new WaitForSeconds(1.0f); // Update every 1 second
 
         while (true)
         {
-            
-                // Find the closest point on the ship's collider(s) to the enemy's position
-                float closestDistance = float.MaxValue;
+                // Finding the closest point on the ship's collider(s) to the enemy's position
 
-                foreach (Collider targetCollider in playerColliders)
+
+                float closestDistance = float.MaxValue;
+                
+                foreach (MeshCollider targetCollider in playerColliders)
                 {
                     float distance = Vector3.Distance(transform.position, targetCollider.ClosestPoint(transform.position));
 
@@ -201,6 +161,8 @@ public class EnemyMovement : MonoBehaviour
                     {
                         closestDistance = distance;
                         closestPlayerCollider = targetCollider;
+
+                        
 
 
                     }
@@ -228,6 +190,85 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
+
+    private void HandleAttack()
+    {
+
+        //Get references to appropriate attacks
+        EnemySoldier soldier = GetComponent<EnemySoldier>();
+        EnemyArtillery artillery = GetComponent<EnemyArtillery>();
+        EnemyDrifter drifter = GetComponent<EnemyDrifter>();
+        EnemyExploder exploder = GetComponent<EnemyExploder>();
+
+
+        //if timer is at respect attack cooldown time, then execute attack and reset timer
+        if (attackTimer >= attackCooldown)
+        {
+            // Reset the timer
+            attackTimer = 0f;
+
+            // Call the appropriate attack based on enemy type
+            if (isArtillery)
+            {
+                artillery.Attack();
+                Debug.Log("Artillery attack called");
+
+                anim.Play("Attack");
+            }
+            else if (isSoldier)
+            {
+                soldier.Attack();
+                Debug.Log("Soldier attack called");
+
+                if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
+                {
+                    scorpianFSM.currentState = ScorpionFiniteStateMachine.States.ATTACKING;
+                }
+            }
+            else if (isDrifter)
+            {
+                drifter.Attack();
+                Debug.Log("Drifter attack called");
+
+                anim.Play("Attack");
+
+            }
+            else if (isExploder)
+            {
+                exploder.Attack();
+                Debug.Log("Exploder attack called");
+
+                if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
+                {
+                    scorpianFSM.currentState = ScorpionFiniteStateMachine.States.ATTACKING;
+                }
+            }
+            else
+            {
+                Debug.Log("No  enemy type found");
+                return;
+
+
+            }
+
+            // Add more conditions for other enemy types
+        }
+
+    }
+
+    // Helper function to set the NavMeshAgent's destination while making sure its actually hitting a point on a navmesh
+    private Vector3 FindClosestNavMeshPoint(Vector3 position)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(position, out hit, Mathf.Infinity, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        // If no valid NavMesh point is found, return the original position
+        Debug.Log("No valid navmesh point found");
+        return position;
+    }
 
 
 
