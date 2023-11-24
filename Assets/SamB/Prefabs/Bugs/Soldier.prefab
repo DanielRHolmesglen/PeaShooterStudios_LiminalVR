@@ -868,8 +868,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4703612003319346127}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.869, z: 0}
-  m_LocalScale: {x: 0.66650873, y: 0.7473459, z: 0.72989786}
+  m_LocalPosition: {x: 0, y: 0.69645, z: -0.024032}
+  m_LocalScale: {x: 0.86679465, y: 0.9719234, z: 0.94923216}
   m_Children:
   - {fileID: 8219630755706116544}
   - {fileID: 483792062829439938}
@@ -988,9 +988,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 60
   currentHealth: 0
+  isSoldier: 0
+  isArtillery: 0
+  isDrifter: 0
+  isExploder: 0
   swordMultiplier: 1
   gunMultipiler: 1
-  waveManager: {fileID: 0}
 --- !u!114 &4703612003319346114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,10 +1012,10 @@ MonoBehaviour:
   moveSpeed: 3.59
   attackRange: 2.5
   attackCooldown: 2
-  IsSoldier: 1
-  IsArtillery: 0
-  IsDrifter: 0
-  IsExploder: 0
+  isSoldier: 0
+  isArtillery: 0
+  isDrifter: 0
+  isExploder: 0
 --- !u!114 &4703612003319346115
 MonoBehaviour:
   m_ObjectHideFlags: 0

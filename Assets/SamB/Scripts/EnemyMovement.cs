@@ -54,41 +54,9 @@ public class EnemyMovement : MonoBehaviour
         navMeshAgent.stoppingDistance = attackRange;
 
         InvokeRepeating("ChangeSpeed", 0f, speedChangeInterval);
-
-        /*
-        // Initially calculate the closest point on the NavMesh for each collider and choose the closest one
-        Vector3 closestPointOnNavMesh = FindClosestNavMeshPoint(playerCollider[2].transform.position);
-        float closestDistance = Vector3.Distance(transform.position, closestPointOnNavMesh);
-
-        for (int i = 1; i < playerCollider.Length; i++)
-        {
-            Vector3 pointOnNavMesh = FindClosestNavMeshPoint(playerCollider[i].transform.position);
-            float distancetoPlayer = Vector3.Distance(transform.position, pointOnNavMesh);
-
-            if (distancetoPlayer < closestDistance)
-            {
-                closestPointOnNavMesh = pointOnNavMesh;
-                closestDistance = distancetoPlayer;
-            }
-        }
         
-
-        // Set the NavMeshAgent's destination to the closest point on the NavMesh
-        navMeshAgent.SetDestination(closestPointOnNavMesh);
-        */
         StartCoroutine(CalculateDistanceToPlayer());
-        
-
-        /*
-        // Initially, find the closest point on the NavMesh to the ship's collider, then we use that to find the best place on the navmesh to move the enemy towards
-        Vector3 closestPointOnShipCollider = playerCollider.ClosestPoint(transform.position);
-        Vector3 closestPointOnNavMesh = FindClosestNavMeshPoint(closestPointOnShipCollider);
-
-        // Set the NavMeshAgent's destination to the closest point on the NavMesh
-        navMeshAgent.SetDestination(closestPointOnNavMesh);
-        */
-
-
+      
     }
 
     //changing the speed every 2 seconds to make movement feel not so linear
@@ -101,33 +69,6 @@ public class EnemyMovement : MonoBehaviour
     {
         // Update attackTimer
         attackTimer += Time.deltaTime;
-
-        /*
-        // Calculate the distance between the enemy's position and the player's closest point on the collider
-        float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.ClosestPoint(transform.position));
-        //Debug.Log("Distance to player: " + distanceToPlayer); 
-
-
-        // Check if the target is in attack range
-        bool isInAttackRange = distanceToPlayer <= attackRange;
-
-        // If the enemy is in attack range, stop moving and handle the attack
-        if (isInAttackRange)
-        {
-            navMeshAgent.isStopped = true;
-            HandleAttack();
-            //Debug.Log("Player is in attack range!"); 
-        }
-        else
-        {
-            // If not in attack range, continue moving towards the player
-            navMeshAgent.isStopped = false;
-            FindClosestNavMeshPoint(player.position);
-            //Debug.Log("Enemy is not in attack range.");
-        }
-        */
-
-
 
         if(!isInAttackRange)
         {
@@ -148,12 +89,11 @@ public class EnemyMovement : MonoBehaviour
 
         while (true)
         {
-                // Finding the closest point on the ship's collider(s) to the enemy's position
-
-
+                // Finding the closest point on the ship's collider(s) to the enemy's position.
+                //WAS USED WHEN WE HAD TO DEFEND MULTIPLE 'GENERATORS'. Now redundant. 
                 float closestDistance = float.MaxValue;
                 
-                foreach (MeshCollider targetCollider in playerColliders)
+                foreach (CapsuleCollider targetCollider in playerColliders)
                 {
                     float distance = Vector3.Distance(transform.position, targetCollider.ClosestPoint(transform.position));
 
@@ -251,7 +191,6 @@ public class EnemyMovement : MonoBehaviour
 
             }
 
-            // Add more conditions for other enemy types
         }
 
     }

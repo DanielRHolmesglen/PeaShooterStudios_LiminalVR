@@ -11,22 +11,17 @@ public class EnemyExploder : MonoBehaviour
     public float explosionRadius = 5f;
     public int explosionDamage = 50;
 
-    // Get reference to playerhealth
-    //PlayerHealth playerHealth = ShipManager.playerHealth;
-
-    public AudioClip soldierAttack;
+    public AudioClip exploderExplode;
     private AudioSource audioSource;
 
-
     private Health health;
-
 
     public ParticleSystem suicideExplosionParticle;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        audioSource.clip = soldierAttack;
+        audioSource.clip = exploderExplode;
         health = GetComponent<Health>();
     }
 
@@ -34,7 +29,6 @@ public class EnemyExploder : MonoBehaviour
     public void Attack()
     {
         Invoke("Sacrifice", explosionDelay);
-        
       
     }
     
@@ -65,7 +59,7 @@ public class EnemyExploder : MonoBehaviour
 
         // Destroy the exploding enemy
 
-        health.Destroy();
+        health.Die();
     }
 
 }

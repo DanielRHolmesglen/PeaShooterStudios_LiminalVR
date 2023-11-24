@@ -6,27 +6,20 @@ using Liminal.SDK.VR;
 using Liminal.SDK.VR.Input;
 using System;
 /// <summary>
-/// Responsible for charging the gun when mouse is held down, firing gun, dealing damage, drawing the laser and turning on/off the particle effect. 
+/// Responsible for AoE gun. has gun atsts, is in charge of it's firing rate, drawing the laser, making the particle effect and sounds. 
 /// </summary>
 public class BoomBoomGunController : MonoBehaviour 
 {
-
-    //public float minChargeTime = 0.5f;
-    //public float maxChargeTime = 1.5f;
-    //public float DirectMinDamage = 5f;
-    //public float DirectMaxDamage = 25f;
+    
     public float maxRange = 20f; //how far line renderer is drawn if nothing is hit 
 
     public float explosionRadius = 5f; // The radius of the explosion
-    public float explosionMinDamage = 5f; // Minimum damage to apply within the explosion radius
-    public float explosionMaxDamage = 25f; // Maximum damage to apply at the center of the explosion
+    public float explosionMinDamage = 5f; // outer edge dmg 
+    public float explosionMaxDamage = 25f; // center of explosion dmg
 
     public bool isCoolingDown;
     public float cooldown = 2f;
     public float fireDelay = 0.25f;
-    
-    //public float chargeTimer;
-    //public bool isCharging;
 
     public AudioClip laserFireSound;
     private AudioSource audioSource;
@@ -45,20 +38,18 @@ public class BoomBoomGunController : MonoBehaviour
 
     private void Start()
     {
-        laserLine = GetComponent<LineRenderer>();  // Find  Line Renderer on the gun
-        //chargingParticles = GetComponentInChildren<ParticleSystem>();
+        laserLine = GetComponent<LineRenderer>();  
         laserLine.enabled = false; // Disable the Line Renderer initially
 
-        //get sound stuff for firing the laser
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = laserFireSound;
     }
 
     private void Update()
     {
-        var primaryInput = VRDevice.Device.PrimaryInputDevice;
+        var input = VRDevice.Device.SecondaryInputDevice; //setting vr device. IS SECONDARY/LEFT HAND.
 
-        if (primaryInput.GetButtonDown(VRButton.One) && (!isCoolingDown) || Input.GetMouseButtonDown(0) && (!isCoolingDown))    //only checking the frame it's clicked as it shouldnt be "full auto"
+        if (input.GetButtonDown(VRButton.One) && (!isCoolingDown) || Input.GetMouseButtonDown(0) && (!isCoolingDown))    //only checking the frame it's clicked as it shouldnt be "full auto"
         {
             chargingParticles.Play();
 
@@ -74,41 +65,33 @@ public class BoomBoomGunController : MonoBehaviour
     }
 
 
-
+    //firing raycast, creating explosion, damage and making effects/sounds
     private void FireGun()
     {
-        //reset charge timer
-        //chargeTimer = 0f;
-
-        //checking what it hits/if it hits something 
         if (Physics.Raycast(gunBarrelEnd.position, gunBarrelEnd.forward, out RaycastHit hit))
         {
-            // Draw the laser line in the direction the gun was pointing.
+            // Draw the laser line to hit the target point 
             laserLine.enabled = true;
             laserLine.SetPosition(0, gunBarrelEnd.position);
             laserLine.SetPosition(1, hit.point);
 
-            //Create explosion (AKA particle system)
+            //Create explosion
             ParticleSystem impactParticle = Instantiate(laserImpactParticle, hit.point, Quaternion.identity);
             Destroy(impactParticle.gameObject, impactParticle.main.duration);
 
-            //get the directly hit enemy
+            //get the directly hit enemy to do additional damage 
             EnemyHealth directEnemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
 
-            //Do additional damage to the the directly hit enemy (if there is one)
             if (directEnemyHealth != null)
             {
-                //float directDamage = Mathf.Lerp(DirectMinDamage, DirectMaxDamage, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
                 directEnemyHealth.Damage(directDamage, DamageType.Gun);
             }
 
-            // Create an array of hit enemies, and make that array be all of the hit enemies
             Collider[] enemyColliders = Physics.OverlapSphere(hit.point, explosionRadius);
 
             // Apply explosion damage to each enemy in the new hit enemies array
             foreach (Collider hitCollider in enemyColliders)
             {
-                // Calculate the damage based on the distance from the center of the explosion. Closer to center is bigger damage.
                 float distance = Vector3.Distance(hit.point, hitCollider.transform.position);
                 float aoeDamage = Mathf.Lerp(explosionMinDamage, explosionMaxDamage, distance / explosionRadius);
 
@@ -121,11 +104,6 @@ public class BoomBoomGunController : MonoBehaviour
 
             }
 
-            // Draw the laser line in the direction the gun was pointing.
-            laserLine.enabled = true;
-            laserLine.SetPosition(0, gunBarrelEnd.position);
-            laserLine.SetPosition(1, gunBarrelEnd.position + gunBarrelEnd.forward * maxRange);
-
             //Turn everything off
             Invoke("TurnOffLaser", 0.3f);
         }
@@ -134,10 +112,10 @@ public class BoomBoomGunController : MonoBehaviour
         {
             Vector3 targetPosition = gunBarrelEnd.position + gunBarrelEnd.forward * maxRange;
 
-            // Enable the laser (Line Renderer) and set its positions
             laserLine.enabled = true;
             laserLine.SetPosition(0, gunBarrelEnd.position);
             laserLine.SetPosition(1, targetPosition);
+
             Invoke("TurnOffLaser", 0.3f);
         }
         

@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+/// <summary>
+/// Used for animations of scorpion/exploder
+/// </summary>
 public class ScorpionFiniteStateMachine : MonoBehaviour
 {
     #region variables
-    //public float sightRange;
-    //public float meleeRange;
-    //public Transform player;
     public NavMeshAgent agent;
-    //public Color sightColor;
 
     private Animator anim;
-    //public EnemySoldier damageTaken;
     #endregion
 
     #region States
@@ -57,14 +54,7 @@ public class ScorpionFiniteStateMachine : MonoBehaviour
         while (currentState == States.CHASING)
         {
             anim.Play("WalkStart");
-            //agent.SetDestination(player.position);
-
-            /*
-            if(agent.remainingDistance <= agent.stoppingDistance)
-            {
-                currentState = States.ATTACKING;
-            }
-            */
+            
 
             yield return new WaitForEndOfFrame();
         }
@@ -77,7 +67,6 @@ public class ScorpionFiniteStateMachine : MonoBehaviour
         while(currentState == States.ATTACKING)
         {
             anim.Play("Attack");
-            //damageTaken.Attack();
 
             yield return new WaitForSeconds(1f);
         }

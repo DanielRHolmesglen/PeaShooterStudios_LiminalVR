@@ -27,6 +27,7 @@ public class WaveManager : MonoBehaviour
     public int currentWave = 1;
 
     private NavMeshSurface navMeshSurface;
+    public ShipManager shipManager; //used for victory 
 
     private void Start()
     {
@@ -41,7 +42,8 @@ public class WaveManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        enemiesLeftText.text = currentEnemies.Count.ToString();
+        enemiesLeftText.text = currentEnemies.Count.ToString(); //updating the wave tracker when things die 
+        //currentEnemies.RemoveAll(s => s == null); //making sure the list properly empties
     }
 
     //spawn waves, with set wait times between each spawn/wave
@@ -53,6 +55,9 @@ public class WaveManager : MonoBehaviour
         
         for (; currentWave <= totalWaves; currentWave++)
         {
+
+            if (currentWave == totalWaves) shipManager.OnVictory();
+
             currentWaveText.text = currentWave + "/" + totalWaves; //updating UI
 
             // Resetting the list of enemies

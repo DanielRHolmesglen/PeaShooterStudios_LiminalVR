@@ -6,7 +6,7 @@ using Liminal.SDK.VR;
 using Liminal.SDK.VR.Input;
 using System;
 /// <summary>
-/// Controls the left hand "rapid fire" gun
+/// Controls the left hand "full auto" gun. Has stats of gun, sounds, and effects.
 /// </summary>
 public class PewPewGunController : MonoBehaviour
 {
@@ -53,9 +53,9 @@ public class PewPewGunController : MonoBehaviour
         }
 
 
-        var secondaryInput = VRDevice.Device.PrimaryInputDevice; //CHANGE THIS WHEN TESTING IN UNITY
+        var input = VRDevice.Device.PrimaryInputDevice; //setting up vr device. IS PRIMARY/RIGHT HAND.
     
-        if (secondaryInput.GetButton(VRButton.One) && (!isOverheated) && (!isCoolingDown) || Input.GetMouseButton(0) && (!isOverheated) && (!isCoolingDown)) //Checking every frame if button is being pressed, for "full auto"
+        if (input.GetButton(VRButton.One) && (!isOverheated) && (!isCoolingDown) || Input.GetMouseButton(0) && (!isOverheated) && (!isCoolingDown)) //Checking every frame if button is being pressed, for "full auto"
         {
             PewPew();
 

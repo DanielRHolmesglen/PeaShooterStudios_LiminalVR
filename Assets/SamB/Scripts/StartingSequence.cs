@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
-/// Responsible for the initial "turotial starting sequence" of the game, and for starting the initial waves
+/// Responsible for the initial "turotial starting sequence" of the game, for starting the initial waves, and UI stuff
 /// </summary>
 
 public class StartingSequence: MonoBehaviour
@@ -31,7 +31,7 @@ public class StartingSequence: MonoBehaviour
     public KeyCode skipKey = KeyCode.Space;
     public WaveManager waveManager;
 
-    float fadeDuration;
+    public float fadeDuration; //how long it takes to fade to black
 
 
     void Start()

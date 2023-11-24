@@ -1008,8 +1008,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6754496708672402959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.995, z: 0}
-  m_LocalScale: {x: 0.20277117, y: 0.2347278, z: 0.25983098}
+  m_LocalPosition: {x: -0.000000019185, y: 1.2415, z: -0.000000038371}
+  m_LocalScale: {x: 0.26804322, y: 0.31028667, z: 0.34347057}
   m_Children:
   - {fileID: 6754496708645647838}
   - {fileID: 6754496709447752727}
@@ -1066,6 +1066,10 @@ MonoBehaviour:
   isExploder: 0
   swordMultiplier: 1
   gunMultipiler: 1
+  deathParticleSoldier: {fileID: 0}
+  deathParticleArtilery: {fileID: 2518502537591553925, guid: 789308214bfa8564d93e1c51d3a57fe2,
+    type: 3}
+  deathParticleDrifter: {fileID: 0}
 --- !u!114 &6754496708672402952
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,32 +11,33 @@ using UnityEngine.UI;
 public class ShipManager : MonoBehaviour
 {
     //static references for other scripts to use
-    public static Transform player; //Where the SHIP is.
+    public static Transform player; //Where the ship is.
     public static Vector3 playerPosition; // ships's Vector3 position+
     public static PlayerHealth playerHealth; // reference to ships's health for all scripts to easily use 
-
     public static Collider[] PlayerColliders; //static reference for ship generator colliders, mainly for enemyMovement and projectiles
-    public Collider[] setPlayerColliders; //assign them in inspector
-
     public static GameObject playerObject; //used for enemymovement
 
-    public StartingSequence startingSequence; 
+    public Collider[] setPlayerColliders; //assign them in inspector
+
+    public StartingSequence startingSequence; //used for some Ui stuff
     public Text hologramText;
+    public Image fadeImage; //used to fade screen to black
 
-
-    public float resetDelay = 3f; // Delay before resetting the game
-    public Image fadeImage;
-    public Text lossText;
-    public AudioSource lossSound;
+    public float resetDelay = 3f; 
+    public AudioSource audioSource;
+    public AudioClip lossSound;
+    public AudioClip winSound;
 
     public WaveManager waveManager;
+
+    public ParticleSystem shipExplosionParticle; //used for death
+    //Also would add in particles for victory 
 
 
 
     private void Awake()
     {
         player = GetComponent<Transform>();
-        //playerCollider = GetComponentInChildren<ShipCollidersTag>(); //getting the script tag of "ShipTargetCollider", with this component on it. It's children's colliders should also count.
         PlayerColliders = setPlayerColliders;
         playerObject = gameObject;
         playerHealth = GetComponent<PlayerHealth>();
@@ -56,19 +57,35 @@ public class ShipManager : MonoBehaviour
         {
             hologramText.gameObject.SetActive(true);
             hologramText.text = "The ship has lost too much health. We need to repair and try again.";
-            Debug.Log("Ship has been destroyed");
+            //Debug.Log("Ship has been destroyed");
 
+            startingSequence.fadeDuration = 6;
             startingSequence.StartCoroutine(startingSequence.FadeToBlack());
+
+            ParticleSystem lossParticle = Instantiate(shipExplosionParticle, transform.position, Quaternion.identity);
+            Destroy(lossParticle.gameObject, lossParticle.main.duration);
+
+            audioSource.PlayOneShot(lossSound);
 
             Invoke("ReloadScene", 5);
 
-            // Play loss sound
-            lossSound.Play();
-
-            // Reset the game
-            ResetGame();
-
         }
+    }
+
+    public void OnVictory()
+    {
+        hologramText.gameObject.SetActive(true);
+        hologramText.text = "You did it! You defeated all the bugs!";
+        //Debug.Log("Waves have ended!");
+
+        audioSource.PlayOneShot(lossSound);
+
+        startingSequence.fadeDuration = 6;
+        startingSequence.StartCoroutine(startingSequence.FadeToBlack());
+
+
+        Invoke("ReloadScene", 5);
+
     }
 
     private void OnDestroy()
@@ -90,6 +107,9 @@ public class ShipManager : MonoBehaviour
     
     private void ResetGame()
     {
+        //This would be used to 'reset' the game back to the previous wave if a player loses, didn't have enough time to proprely do it
+
+
         //playerHealth.currentHealth = 200;
 
 
