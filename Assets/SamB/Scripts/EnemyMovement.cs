@@ -47,7 +47,7 @@ public class EnemyMovement : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         scorpianFSM = GetComponent<ScorpionFiniteStateMachine>();
         //player = ShipManager.player;
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
         // Set the initial NavMeshAgent speed/attack range
         navMeshAgent.speed = moveSpeed;

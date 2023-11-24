@@ -29,7 +29,7 @@ public class ScorpionFiniteStateMachine : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         //damageTaken = GetComponent<EnemySoldier>();
         agent = GetComponent<NavMeshAgent>();
 

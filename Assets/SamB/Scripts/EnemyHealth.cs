@@ -34,7 +34,7 @@ public class EnemyHealth: Health
         base.Awake(); //invoke the parent(base) class's start first, then add the below stuff
         ColorChange = GetComponent<ColorChange>();
 
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
 
     }
