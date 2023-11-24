@@ -5570,6 +5570,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 619956493}
+  - component: {fileID: 619956494}
   m_Layer: 0
   m_Name: MANAGERS
   m_TagString: Untagged
@@ -5594,6 +5595,18 @@ Transform:
   m_Father: {fileID: 1196572344}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619956494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619956492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdea5bdf4436eb840bf12bf84265e8ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &627757254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32088,21 +32101,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PewPewGunAnchor
       objectReference: {fileID: 0}
-    - target: {fileID: 4321767524501336616, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.8396226
-      objectReference: {fileID: 0}
-    - target: {fileID: 4321767524501336616, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.34133166
-      objectReference: {fileID: 0}
-    - target: {fileID: 4321767524501336616, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.099012084
-      objectReference: {fileID: 0}
     - target: {fileID: 4321767524683378415, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32172,6 +32170,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321767524501336616, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.8396226
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321767524501336616, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.34133166
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321767524501336616, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.099012084
       objectReference: {fileID: 0}
     - target: {fileID: 4321767524683378417, guid: 5df6e1b774f0c434493c7e6ed56b2f7d,
         type: 3}
