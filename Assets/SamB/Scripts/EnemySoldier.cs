@@ -9,7 +9,7 @@ public class EnemySoldier : MonoBehaviour
     public float meleeDamage = 10f;
 
     // Get reference to playerhealth
-    PlayerHealth playerHealth = EndGame.playerHealth;
+    PlayerHealth playerHealth = ShipManager.playerHealth;
 
     public AudioClip soldierAttack;
     private AudioSource audioSource;

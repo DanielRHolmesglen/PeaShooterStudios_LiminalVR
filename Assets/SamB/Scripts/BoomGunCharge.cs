@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class PewGunCharge : MonoBehaviour
+/// <summary>
+/// UNUSED: controls the 'filling up' of the right hand gun "charge up" bar on the canvas
+/// </summary>
+public class BoomGunCharge : MonoBehaviour
 {
     public AudioClip laserChargeSound;
     private AudioSource audioSource;
@@ -32,7 +34,7 @@ public class PewGunCharge : MonoBehaviour
 
 
     }
-
+    /* MORE UNUSED CHARGE STUFF
     //could make this an event like health changing, but update is much easier for the moment
     private void Update()
     {        
@@ -49,7 +51,7 @@ public class PewGunCharge : MonoBehaviour
             //fill the charge bar
             bar.fillAmount = fillAmount;
 
-
+        
         if (gunController.isCharging && audioSource.isPlaying == false)
         {
             audioSource.Play();
@@ -58,8 +60,10 @@ public class PewGunCharge : MonoBehaviour
         {
             audioSource.Stop();
         }
+        
 
-    }
+      }
+        */
 
 
 }

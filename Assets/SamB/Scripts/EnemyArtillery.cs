@@ -9,8 +9,8 @@ public class EnemyArtillery : MonoBehaviour
     public GameObject projectilePrefab; // Prefab of the projectile
     public Transform projectileSpawnPoint; // Where the projectile spawns
     public float projectileSpeed = 10f;
-    private Transform player = EndGame.player;
-    private Vector3 playerPosition = EndGame.playerPosition;
+    private Transform player = ShipManager.player;
+    private Vector3 playerPosition = ShipManager.playerPosition;
 
     //this is called by enemy movement when the enemy is close enough to attack. A bit different as this one needs to make a projectile.
     public void Attack()

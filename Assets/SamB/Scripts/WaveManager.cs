@@ -5,30 +5,32 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 /// <summary>
-/// Responsible for the Managing wave spawning. There is no list for bugs spawned at current as I dont think it's needed, but can add it.
+/// Responsible for the Managing wave spawning and tracks all enemies in scene. There is no list for bugs spawned at current as I dont think it's needed, but can add it.
 /// </summary>
+/// 
+
 public class WaveManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     public GameObject[] spawnPoints;
-    public int totalWaves = 5;
-    public int enemiesPerWave = 10; //increases by 2 each wave.
-    public float timeBetweenSpawns = 2.0f;
-    public float timeBetweenWaves = 5.0f;
+    public int totalWaves = 10;
+    public int enemiesPerWave = 12; //also increases by 4 each wave.
+    public int extraEnemiesPerWave = 2;
+    public float timeBetweenSpawns = 1.0f;
+    public float timeBetweenWaves = 15.0f;
 
-    public List<GameObject> currentEnemies /*saying the list exists*/ = new List<GameObject>(); //actually creating the list
+    public static List<GameObject> currentEnemies = new List<GameObject>(); 
     public Text currentWaveText;
     public Text enemiesLeftText;
 
-    public int currentWave = 0;
-
+    public int previousWave = 0;
+    public int currentWave = 1;
 
     private NavMeshSurface navMeshSurface;
-
+    public ShipManager shipManager; //used for victory 
 
     private void Start()
     {
-        
         navMeshSurface = FindObjectOfType<NavMeshSurface>();
         if (navMeshSurface == null)
         {
@@ -36,39 +38,68 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        //StartCoroutine(SpawnWaves());
-        //This is no longer done by wave manager, instead is done by StartingSequence so it happens at the correct time.
+    }
+
+    private void FixedUpdate()
+    {
+        enemiesLeftText.text = currentEnemies.Count.ToString(); //updating the wave tracker when things die 
+        //currentEnemies.RemoveAll(s => s == null); //making sure the list properly empties
     }
 
     //spawn waves, with set wait times between each spawn/wave
     public IEnumerator SpawnWaves()
     {
-        yield return new WaitForSeconds(2.0f); // Wait for 2 seconds before starting cause its nice
-        int wave = 0;
+        yield return new WaitForSeconds(2.0f);
+        //int currentWave = 0;
 
         
-            for (; wave <= totalWaves; wave++)
+        for (; currentWave <= totalWaves; currentWave++)
+        {
+
+            if (currentWave == totalWaves) shipManager.OnVictory();
+
+            currentWaveText.text = currentWave + "/" + totalWaves; //updating UI
+
+            // Resetting the list of enemies
+            currentEnemies.Clear();
+
+            
+            
+            enemiesPerWave = enemiesPerWave + extraEnemiesPerWave;
+
+
+            // Add new prefabs to "spawnPool"
+            int prefabIndex = Mathf.Min(currentWave - 1, enemyPrefabs.Length - 1);
+
+            //picking a random enemy from spawn pool to spawn
+            int randomIndex;
+            GameObject selectedPrefab;
+           
+            for (int enemyIndex = 0; enemyIndex < enemiesPerWave; enemyIndex++) //going through and spawning enemies until index is full
             {
-                currentWave++; //for UI
-                currentWaveText.text = currentWave + "/5"; //updating UI
-                enemiesPerWave = enemiesPerWave + 2; //increasing amount of enemies each wave by 2
-                Debug.LogWarning("wave" + wave);
-
-
-                for (int enemyIndex = 0; enemyIndex < enemiesPerWave; enemyIndex++) //going through and spawning enemies until index is full
-                {
-                    SpawnRandomEnemy();
-                    yield return new WaitForSeconds(timeBetweenSpawns);
-                }
-
-                yield return new WaitForSeconds(timeBetweenWaves);
+                randomIndex = Random.Range(0, currentWave - 1) % (enemyPrefabs.Length - 1);
+                selectedPrefab = enemyPrefabs[randomIndex];
+                SpawnRandomEnemy(selectedPrefab);
+                yield return new WaitForSeconds(timeBetweenSpawns);
             }
 
-        
-        
+            //wait for enemies to be defeated.
+            while (currentEnemies.Count > 0)
+            {
+                yield return null;
+            }
+
+            Debug.LogWarning("wave" + currentWave);
+           
+
+            yield return new WaitForSeconds(1);
+        }
+
+
+
     }
 
-    private void SpawnRandomEnemy()
+    private void SpawnRandomEnemy(GameObject prefab)
     {
 
         //debugging in case lists are empty (they shouldnt be)
@@ -99,12 +130,28 @@ public class WaveManager : MonoBehaviour
         }
 
         // Spawning the enemy
-        GameObject newEnemy = Instantiate(enemyPrefabs[randomEnemyIndex], spawnPosition, spawnRotation);
+        GameObject newEnemy = Instantiate(prefab, spawnPosition, spawnRotation);
         currentEnemies.Add(newEnemy); //adding enemy to list for UI
-
-        enemiesLeftText.text = currentEnemies.Count.ToString(); //updating  with how many enemies are now in the enemy array
-        //navMeshSurface.BuildNavMesh(); //Can't be done during runtime/isnt needed. Dunno why it was suggested.
+        enemiesLeftText.text = currentEnemies.Count.ToString(); //updating with how many enemies are now in the enemy array
 
     }
+
+
+    public IEnumerator DestroyEnemies()
+    {
+        foreach (GameObject enemy in currentEnemies)
+        {
+            if (enemy != null)
+            {
+                Destroy(enemy);
+            }
+        }
+
+        // Clear the list after destroying the enemies
+        currentEnemies.Clear();
+
+        yield return null;
+    }
+
 
 }

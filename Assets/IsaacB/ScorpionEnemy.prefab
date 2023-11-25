@@ -81,7 +81,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 79ae8a03656e34fc1bade7b57ebb7d68, type: 3}
+  - {fileID: 2100000, guid: 39f312fbe5b35472a8c537459057ba2a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1272,12 +1272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42789bb8bd914dc4a3cae8029493ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 0
-  meleeRange: 0
-  player: {fileID: 0}
   agent: {fileID: 0}
-  sightColor: {r: 0, g: 0, b: 0, a: 0}
-  damageTaken: {fileID: 0}
   currentState: 0
 --- !u!1 &5783143812383041984
 GameObject:

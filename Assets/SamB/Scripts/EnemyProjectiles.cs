@@ -10,9 +10,9 @@ public class EnemyProjectiles : MonoBehaviour
     public float maxDistance = 10f;
 
     private Vector3 initialPosition; //used to check when to destroy the projectile. 
-    private Transform player = EndGame.player;
-    private Collider[] playerCollider = EndGame.PlayerColliders;
-    private PlayerHealth playerHealth = EndGame.playerHealth;
+    private Transform player = ShipManager.player;
+    private Collider[] playerCollider = ShipManager.PlayerColliders;
+    private PlayerHealth playerHealth = ShipManager.playerHealth;
 
     public AudioClip projectileHit;
     private AudioSource audioSource;
