@@ -54,7 +54,7 @@ public class ShipManager : MonoBehaviour
     
     private void HandleHealthChanged(float currentHealth, float maxHealth)
     {
-        if (currentHealth <= 0f)   // Player health is zero or negative, reload game
+        if (playerHealth.currentHealth <= 0f)   // Player health is zero or negative, reload game
         {
             waveManager.StartCoroutine(waveManager.DestroyEnemies());
             waveManager.StopCoroutine(waveManager.SpawnWaves());

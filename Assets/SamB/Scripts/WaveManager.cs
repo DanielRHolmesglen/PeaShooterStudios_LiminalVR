@@ -145,6 +145,8 @@ public class WaveManager : MonoBehaviour
             {
                 Destroy(enemy);
             }
+            
+            yield return new WaitForSeconds(0.1f);
         }
 
         // Clear the list after destroying the enemies

@@ -5226,7 +5226,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!23 &590266746
 MeshRenderer:
@@ -9598,7 +9598,7 @@ MonoBehaviour:
   enemiesLeftText: {fileID: 68151608}
   previousWave: 0
   currentWave: 1
-  shipManager: {fileID: 0}
+  shipManager: {fileID: 1857303441}
 --- !u!1 &1096777248
 GameObject:
   m_ObjectHideFlags: 0
@@ -20118,7 +20118,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798696106}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e8a8ac9bf61d1d4cb027f8b265cc9d9, type: 3}
   m_Name: 
@@ -26641,7 +26641,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!114 &2072023536
 MonoBehaviour:
@@ -34957,7 +34957,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!1 &6897643472374615312
 GameObject:
@@ -35461,7 +35461,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!1001 &7360029186339695259
 PrefabInstance:
@@ -36128,7 +36128,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!114 &8020872819775430798
 MonoBehaviour:
@@ -36848,7 +36848,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!1 &8597083969289835560
 GameObject:
@@ -37105,7 +37105,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!114 &8911756002036770167
 MonoBehaviour:
@@ -37229,7 +37229,7 @@ MonoBehaviour:
   swordMultiplier: 1
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 0}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!114 &9000520611500127218
 MonoBehaviour:
