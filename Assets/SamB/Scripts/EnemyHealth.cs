@@ -24,7 +24,7 @@ public class EnemyHealth: Health
     public float gunMultipiler = 1;
 
     public ParticleSystem deathParticleSoldier;
-    public ParticleSystem deathParticleArtilery;
+    public ParticleSystem deathParticleArtillery;
     public ParticleSystem deathParticleDrifter;
 
 
@@ -76,7 +76,7 @@ public class EnemyHealth: Health
             {
                 anim.Play("ArtilleryDEATH");
                 //anim.Play("Death");
-                ParticleSystem deathEffectArtillery = Instantiate(deathParticleSoldier, transform.position, Quaternion.identity);
+                ParticleSystem deathEffectArtillery = Instantiate(deathParticleArtillery, transform.position, Quaternion.identity);
 
             }
             else if (isSoldier)
@@ -97,7 +97,7 @@ public class EnemyHealth: Health
             {
                 anim.Play("DrifterDEATH");
                 //anim.Play("Death");
-                ParticleSystem deathEffectDrifter = Instantiate(deathParticleSoldier, transform.position, Quaternion.identity);
+                ParticleSystem deathEffectDrifter = Instantiate(deathParticleArtillery, transform.position, Quaternion.identity);
             }
             else Debug.LogWarning("NoEnemyTypeFound");
             

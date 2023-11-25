@@ -59,7 +59,7 @@ public class StartingSequence: MonoBehaviour
 
     private IEnumerator PlayStartingSequence()
     {
-        if (isReloaded)
+        if (!isReloaded)
         {
 
             tutorialOn = true;
@@ -137,17 +137,17 @@ public class StartingSequence: MonoBehaviour
             StartCoroutine(FadeToBlack());
             yield return new WaitForSeconds(3.0f);
             hologramText.gameObject.SetActive(false);
+            AIModel.SetActive(false);
 
-            hologramText.gameObject.SetActive(false);
             fadeDuration = 3;
             StartCoroutine(FadeIn());
-            AIModel.SetActive(false);
 
         }
 
         //start wave spawning as the game now 'starts' and tutorial ends
         tutorialOn = false;
         waveManager.StartCoroutine(waveManager.SpawnWaves());
+        EndSequence();
         //Destroy(gameObject);
 
     }

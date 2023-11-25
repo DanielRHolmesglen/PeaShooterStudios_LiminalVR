@@ -594,7 +594,7 @@ Transform:
   m_Father: {fileID: 5195070614745679959}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &176493735929228724
+--- !u!136 &5074626482652003406
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -604,10 +604,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.22
-  m_Height: 5.53
+  m_Radius: 2.01
+  m_Height: 4.69
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.03, y: 0.64, z: 0}
 --- !u!1 &2947946582569883211
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +740,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3221856723289801137}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.74
   m_Height: 3.2
   m_Direction: 2
@@ -1403,7 +1403,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5667843336107250185}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b42789bb8bd914dc4a3cae8029493ca2, type: 3}
   m_Name: 
@@ -1600,7 +1600,7 @@ MonoBehaviour:
   gunMultipiler: 1
   deathParticleSoldier: {fileID: 2518502537591553925, guid: 789308214bfa8564d93e1c51d3a57fe2,
     type: 3}
-  deathParticleArtilery: {fileID: 0}
+  deathParticleArtillery: {fileID: 0}
   deathParticleDrifter: {fileID: 0}
 --- !u!114 &-8428136877809395367
 MonoBehaviour:
