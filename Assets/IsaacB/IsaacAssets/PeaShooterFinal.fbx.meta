@@ -8,13 +8,13 @@ ModelImporter:
     second: WalkStart
   - first:
       74: -5707210424019099851
-    second: WalkLoop
+    second: ArtilleryMOVE
   - first:
       74: 6720303635017113406
-    second: Attack
+    second: ArtilleryATTACK
   - first:
       74: 4348485665485846014
-    second: Death
+    second: ArtilleryDEATH
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -73,7 +73,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: WalkLoop
+      name: ArtilleryMOVE
       takeName: Take 001
       internalID: -5707210424019099851
       firstFrame: 11
@@ -102,7 +102,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Attack
+      name: ArtilleryATTACK
       takeName: Take 001
       internalID: 6720303635017113406
       firstFrame: 41
@@ -131,7 +131,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Death
+      name: ArtilleryDEATH
       takeName: Take 001
       internalID: 4348485665485846014
       firstFrame: 81

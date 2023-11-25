@@ -5,13 +5,13 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: IDLE
+    second: DrifterMOVE
   - first:
       74: -998496362607748373
-    second: ATTACK
+    second: DrifterATTACK
   - first:
       74: 4348485665485846014
-    second: DEATH
+    second: DrifterDEATH
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -41,7 +41,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: IDLE
+      name: DrifterMOVE
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1
@@ -70,7 +70,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ATTACK
+      name: DrifterATTACK
       takeName: Take 001
       internalID: -998496362607748373
       firstFrame: 41
@@ -99,7 +99,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DEATH
+      name: DrifterDEATH
       takeName: Take 001
       internalID: 4348485665485846014
       firstFrame: 81

@@ -38,7 +38,10 @@ public class HealthBar : MonoBehaviour
     private void HandleHealthChanged(float currentHealth, float maxHealth)
     {
         // Update the health bar color when damage is taken
-        UpdateHealthBar();
+        if (health.currentHealth >= 0)
+        {
+            UpdateHealthBar();
+        }
     }
 
     private void UpdateHealthBar()

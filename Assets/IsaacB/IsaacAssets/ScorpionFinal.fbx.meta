@@ -8,13 +8,13 @@ ModelImporter:
     second: WalkStart
   - first:
       74: -5707210424019099851
-    second: WalkLoop
+    second: ScorpionMOVE
   - first:
       74: 6720303635017113406
-    second: Attack
+    second: ScorpionATTACK
   - first:
       74: 4348485665485846014
-    second: Death
+    second: ScorpionDEATH
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -73,7 +73,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: WalkLoop
+      name: ScorpionMOVE
       takeName: Take 001
       internalID: -5707210424019099851
       firstFrame: 11
@@ -102,7 +102,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Attack
+      name: ScorpionATTACK
       takeName: Take 001
       internalID: 6720303635017113406
       firstFrame: 46
@@ -131,7 +131,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: Death
+      name: ScorpionDEATH
       takeName: Take 001
       internalID: 4348485665485846014
       firstFrame: 66

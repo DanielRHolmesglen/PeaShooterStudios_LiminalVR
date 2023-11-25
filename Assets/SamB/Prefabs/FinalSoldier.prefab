@@ -1506,8 +1506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92931c70e2c39514a886c8fae4393967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 8
-  maxSpeed: 12
+  minSpeed: 12.4
+  maxSpeed: 15.02
   speedChangeInterval: 2
   moveSpeed: 3.59
   attackRange: 2.5

@@ -42,12 +42,12 @@ public class EnemyExploder : MonoBehaviour
         foreach (var collider in colliders)
         {
             // Check if one of those colliders is the ships health
-            PlayerHealth health = collider.GetComponent<PlayerHealth>();
+            PlayerHealth playerHealth = collider.GetComponent<PlayerHealth>();
 
-            if (health != null)
+            if (playerHealth != null)
             {
                 // Apply damage to objects within the explosion radius
-                health.Damage(explosionDamage, DamageType.Enemy);
+                playerHealth.Damage(explosionDamage, DamageType.Enemy);
             }
         }
 

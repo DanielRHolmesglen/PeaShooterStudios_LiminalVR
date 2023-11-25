@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 4348485665485846014, guid: 79ae8a03656e34fc1bade7b57ebb7d68,
+  m_Motion: {fileID: 4348485665485846014, guid: 3b03214e1976330478ec532156179ece,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -41,9 +41,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_TransitionDuration: 0.2941128
+  m_TransitionOffset: 0.03781096
+  m_ExitTime: 0.7235323
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -70,7 +70,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6720303635017113406, guid: 79ae8a03656e34fc1bade7b57ebb7d68,
+  m_Motion: {fileID: 6720303635017113406, guid: 3b03214e1976330478ec532156179ece,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -136,7 +136,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Soldier
+  m_Name: Artillery
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -200,7 +200,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5707210424019099851, guid: 79ae8a03656e34fc1bade7b57ebb7d68,
+  m_Motion: {fileID: -5707210424019099851, guid: 3b03214e1976330478ec532156179ece,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

@@ -21,6 +21,7 @@ public class ShipManager : MonoBehaviour
 
     public StartingSequence startingSequence; //used for some Ui stuff
     public Text hologramText;
+    public GameObject AIModel;
     public Image fadeImage; //used to fade screen to black
 
     public float resetDelay = 3f; 
@@ -55,36 +56,41 @@ public class ShipManager : MonoBehaviour
     {
         if (currentHealth <= 0f)   // Player health is zero or negative, reload game
         {
+            waveManager.StartCoroutine(waveManager.DestroyEnemies());
+            waveManager.StopCoroutine(waveManager.SpawnWaves());
+
+            AIModel.SetActive(true);
             hologramText.gameObject.SetActive(true);
             hologramText.text = "The ship has lost too much health. We need to repair and try again.";
             //Debug.Log("Ship has been destroyed");
 
-            startingSequence.fadeDuration = 6;
+            startingSequence.fadeDuration = 7;
             startingSequence.StartCoroutine(startingSequence.FadeToBlack());
 
             ParticleSystem lossParticle = Instantiate(shipExplosionParticle, transform.position, Quaternion.identity);
             Destroy(lossParticle.gameObject, lossParticle.main.duration);
 
-            audioSource.PlayOneShot(lossSound);
+            audioSource.PlayOneShot(winSound);
 
-            Invoke("ReloadScene", 5);
+            Invoke("ReloadLevel", 7);
 
         }
     }
 
     public void OnVictory()
     {
+        waveManager.StartCoroutine(waveManager.DestroyEnemies());
+
         hologramText.gameObject.SetActive(true);
         hologramText.text = "You did it! You defeated all the bugs!";
         //Debug.Log("Waves have ended!");
 
         audioSource.PlayOneShot(lossSound);
 
-        startingSequence.fadeDuration = 6;
+        startingSequence.fadeDuration = 4;
         startingSequence.StartCoroutine(startingSequence.FadeToBlack());
 
-
-        Invoke("ReloadScene", 5);
+        Invoke("ReloadLevel", 5);
 
     }
 
@@ -98,34 +104,13 @@ public class ShipManager : MonoBehaviour
         }
     }
 
-    public void ReloadScene()
+    public void ReloadLevel()
     {
+        StartingSequence.isReloaded = true;
+
         hologramText.gameObject.SetActive(false);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-    }
-    
-    private void ResetGame()
-    {
-        //This would be used to 'reset' the game back to the previous wave if a player loses, didn't have enough time to proprely do it
-
-
-        //playerHealth.currentHealth = 200;
-
-
-        //waveManager.currentWave = waveManager.previousWave;
-        // Reset defendedObject's health
-        // ...
-
-        //foreach gameobject in WaemManager.enemies
-        // Remove active enemies
-        // ...
-
-        // Reset any other game state
-        // ...
-
-        // Restart the game or transition to a menu, etc.
-        // ...
     }
 
 

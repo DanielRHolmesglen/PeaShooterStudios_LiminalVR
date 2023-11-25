@@ -37,10 +37,6 @@ public class EnemyMovement : MonoBehaviour
     private ScorpionFiniteStateMachine scorpianFSM;
     //private DrifterFiniteStateMachine drifterFSM;
 
-
-
-
-
     private void Start()
     {
         //get enemies navmesh refrence and players reference for position
@@ -72,12 +68,10 @@ public class EnemyMovement : MonoBehaviour
 
         if(!isInAttackRange)
         {
-            if (isArtillery) anim.Play("WalkLoop");
-
-            if (isSoldier) anim.Play("WalkLoop");
-            if (isExploder) anim.Play("WalkLoop");
-
-            if (isDrifter) anim.Play("IDLE");
+            if (isArtillery) anim.Play("ArtilleryMOVE");
+            else if (isSoldier) anim.Play("ScorpionMOVE");
+            else if (isExploder) anim.Play("ScorpionMOVE");
+            else if (isDrifter) anim.Play("DrifterMOVE");
         }
 
 
@@ -92,7 +86,9 @@ public class EnemyMovement : MonoBehaviour
                 // Finding the closest point on the ship's collider(s) to the enemy's position.
                 //WAS USED WHEN WE HAD TO DEFEND MULTIPLE 'GENERATORS'. Now redundant. 
                 float closestDistance = float.MaxValue;
-                
+
+            if (playerColliders != null)
+            {
                 foreach (CapsuleCollider targetCollider in playerColliders)
                 {
                     float distance = Vector3.Distance(transform.position, targetCollider.ClosestPoint(transform.position));
@@ -101,12 +97,13 @@ public class EnemyMovement : MonoBehaviour
                     {
                         closestDistance = distance;
                         closestPlayerCollider = targetCollider;
-
-                        
-
-
                     }
                 }
+            }
+            else
+            {
+                yield break;
+            }
 
             float distanceToPlayer = closestDistance;
 
@@ -153,41 +150,40 @@ public class EnemyMovement : MonoBehaviour
                 artillery.Attack();
                 Debug.Log("Artillery attack called");
 
-                anim.Play("Attack");
+                anim.Play("ArtilleryATTACK");
             }
             else if (isSoldier)
             {
                 soldier.Attack();
                 Debug.Log("Soldier attack called");
 
-                if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
-                {
-                    scorpianFSM.currentState = ScorpionFiniteStateMachine.States.ATTACKING;
-                }
-            }
-            else if (isDrifter)
-            {
-                drifter.Attack();
-                Debug.Log("Drifter attack called");
-
-                anim.Play("Attack");
-
+                anim.Play("ScorpionATTACK");
             }
             else if (isExploder)
             {
                 exploder.Attack();
                 Debug.Log("Exploder attack called");
 
-                if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
+                anim.Play("ScorpionATTACK");
+                /*if (scorpianFSM.currentState != ScorpionFiniteStateMachine.States.ATTACKING)
                 {
                     scorpianFSM.currentState = ScorpionFiniteStateMachine.States.ATTACKING;
-                }
+                }*/
             }
+            else if (isDrifter)
+            {
+                drifter.Attack();
+                Debug.Log("Drifter attack called");
+
+                anim.Play("DrifterATTACK");
+                //anim.Play("Attack");
+
+            }
+
             else
             {
                 Debug.Log("No  enemy type found");
                 return;
-
 
             }
 

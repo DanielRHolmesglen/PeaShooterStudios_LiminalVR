@@ -14,5 +14,26 @@ public class PlayerHealth : Health
         currentHealth -= amount;
     }
     */
-    
+
+    private MeshRenderer renderer; //hiding  the ship when its destoyed 
+
+    void Start()
+    {
+        renderer = GetComponent<MeshRenderer>();
+    }
+
+    public override void Die()
+    {
+        renderer.enabled = false;
+
+        //Invoke("UnhideRenderer", 5);
+
+    }
+
+    /*
+    public void UnhideRenderer()
+    {
+        renderer.enabled = true;
+    }
+    */
 }

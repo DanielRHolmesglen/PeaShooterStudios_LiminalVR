@@ -135,6 +135,23 @@ public class WaveManager : MonoBehaviour
         enemiesLeftText.text = currentEnemies.Count.ToString(); //updating with how many enemies are now in the enemy array
 
     }
-    
+
+
+    public IEnumerator DestroyEnemies()
+    {
+        foreach (GameObject enemy in currentEnemies)
+        {
+            if (enemy != null)
+            {
+                Destroy(enemy);
+            }
+        }
+
+        // Clear the list after destroying the enemies
+        currentEnemies.Clear();
+
+        yield return null;
+    }
+
 
 }

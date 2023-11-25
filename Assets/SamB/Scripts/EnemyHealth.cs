@@ -74,21 +74,29 @@ public class EnemyHealth: Health
 
             if (isArtillery) //different death animations/effects for each unit type
             {
-                anim.Play("Death");
-
+                anim.Play("ArtilleryDEATH");
+                //anim.Play("Death");
                 ParticleSystem deathEffectArtillery = Instantiate(deathParticleSoldier, transform.position, Quaternion.identity);
 
             }
             else if (isSoldier)
             {
-                anim.Play("Death");
+                anim.Play("ScorpionDEATH");
+                //anim.Play("Death");
                 ParticleSystem deathEffectSolider = Instantiate(deathParticleSoldier, transform.position, Quaternion.identity);
 
             }
-            else if (isExploder) anim.Play("Death");
+            else if (isExploder)
+            {
+                anim.Play("ScorpionDEATH");
+                //anim.Play("Death");
+                ParticleSystem deathEffectSoldier = Instantiate(deathParticleSoldier, transform.position, Quaternion.identity);
+
+            }
             else if (isDrifter)
             {
-                anim.Play("DEATH");
+                anim.Play("DrifterDEATH");
+                //anim.Play("Death");
                 ParticleSystem deathEffectDrifter = Instantiate(deathParticleSoldier, transform.position, Quaternion.identity);
             }
             else Debug.LogWarning("NoEnemyTypeFound");
